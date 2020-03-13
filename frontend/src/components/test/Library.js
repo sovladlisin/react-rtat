@@ -45,14 +45,15 @@ export class Library extends Component {
                         <div className="item"><button onClick={() => this.choiceHandler('Resources')}><p>Ресурсы</p></button></div>
                         <div className="item"><button onClick={() => this.choiceHandler('CreateCorpus')}><p>Создать корпус</p></button></div>
                         <div className="item"><button onClick={() => this.choiceHandler('UploadCorpus')}><p>Загрузить корпус</p></button></div>
-                        <div className="item"><button onClick={() => this.choiceHandler('Multimedia')}><p>Мультимедиа</p></button></div>
+                        {/* <div className="item"><button onClick={() => this.choiceHandler('Multimedia')}><p>Мультимедиа</p></button></div> */}
                     </div>
 
                     {this.state.activeComponent === 'CorpusTree' ? (<CorpusTree createWindow={this.props.createWindow} />) :
                         this.state.activeComponent === 'Resources' ? (<Resources createWindow={this.props.createWindow} />) :
                             this.state.activeComponent === 'CreateCorpus' ? (<CreateCorpus />) :
                                 this.state.activeComponent === 'UploadCorpus' ? (<UploadCorpus />) :
-                                    this.state.activeComponent === 'Multimedia' ? (<Multimedia />) : null}
+                                    this.state.activeComponent === 'Multimedia' ? (<Multimedia />)
+                                        : null}
                 </div>
             </Fragment>
         )

@@ -34,6 +34,7 @@ export class Resource extends Component {
         console.log(this.props)
         this.props.getResource(this.props.pk)
         this.props.getAuthors()
+        this.props.getResourceTypes()
     }
 
     save() {
@@ -44,6 +45,12 @@ export class Resource extends Component {
         const author_select = this.props.authors.map((item) => {
             return (
                 <option key={item.id} value={item.id}>{item.name} - {item.initials}</option>
+            )
+        })
+
+        const type_select = this.props.types.map((item) => {
+            return (
+                <option key={item.id} value={item.id}>{item.name}</option>
             )
         })
 
@@ -62,7 +69,10 @@ export class Resource extends Component {
                     <label>Ареал распространения </label> <input type="text" name="areal" value={this.props.selected['areal']} />
                     <label>Дополнительно </label> <input type="text" name="extras" value={this.props.selected['extras']} />
                     <label>Ссылка на файл</label> <input type="text" name="link" value={this.props.selected['link']} />
-                    <label>Тип</label> <input type="text" name="resource_type" value={this.props.selected['resource_type']} />
+                    <label>Тип</label><select name="resource_type" id="resource_type" value={this.props.selected['resource_type']}>
+                        <option value="">Не указано</option>
+                        {type_select}
+                    </select>
                     <label>Место записи </label> <input type="text" name="place_of_recording" value={this.props.selected['place_of_recording']} />
                     <label>Исполнитель</label> <select name="author" id="author" value={this.props.selected['author']}>
                         <option value="">Не указано</option>
