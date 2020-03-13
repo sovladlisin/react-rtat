@@ -1,0 +1,12 @@
+.text-editor {
+    width: 900px;
+    margin: 30px auto;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 10px;
+}
+
+.text-editor p {
+    background: white;
+    padding: 5px;
+}

@@ -1,0 +1,41 @@
+.library-block{
+    width: 94%;
+    margin: 10px auto;
+    max-height: 600px;
+    background: white;
+    position: absolute;
+    z-index: 10;
+    left: 0;
+    right:0;
+    padding: 25px;
+    overflow: auto;
+    -webkit-box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);
+    box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);
+}
+.library-block .column, .library-block .menu{
+    float:left;
+    width: 200px;
+    padding: 0px 15px;
+    border-right: 1px solid grey;
+    border-image: 
+    linear-gradient(
+      to bottom, 
+      grey, 
+      rgba(0, 0, 0, 0)
+    ) 1 100%;
+}
+.library-block .column div.item, .library-block .menu div.item{
+    width:150px;
+    height:30px;
+    padding:5px 10px;
+}
+.library-block .column div.item:hover, .library-block .menu div.item:hover{
+    background: rgb(230, 230, 230);
+    cursor: pointer;
+}
+.library-block .column div.item button, .library-block .menu div.item button{
+    width:inherit;
+    height:inherit;
+    text-align: left;
+}
