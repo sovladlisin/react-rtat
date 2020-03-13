@@ -46,7 +46,21 @@ class Author(models.Model):
         return self.name + self.surname + self.patronymic
 
 
+class Corpus(models.Model):
+    parent = models.ForeignKey(
+        'self', blank=True, null=True, related_name='corpus_parent', on_delete=models.PROTECT)
+    name = models.CharField(max_length=300, default="Не указано")
+    language = models.CharField(max_length=300, default="Не указано")
+    dialect = models.CharField(max_length=300, default="Не указано")
+    extras = models.CharField(max_length=300, default="Не указано")
+
+    def __str__(self):
+        return self.name
+
+
 class Resource(models.Model):
+    corpus = models.ForeignKey(
+        Corpus, blank=True, null=True, related_name='corpus', on_delete=models.CASCADE)
     name = models.CharField(max_length=300, default="Не указано")
     resource_type = models.ForeignKey(
         ResourceType, blank=True, null=True, related_name='resource_type', on_delete=models.PROTECT)
@@ -94,18 +108,6 @@ class Resource(models.Model):
         return self.name
 
 
-class Corpus(models.Model):
-    parent = models.ForeignKey(
-        'self', blank=True, null=True, related_name='corpus_parent', on_delete=models.PROTECT)
-    name = models.CharField(max_length=300, default="Не указано")
-    language = models.CharField(max_length=300, default="Не указано")
-    dialect = models.CharField(max_length=300, default="Не указано")
-    extras = models.CharField(max_length=300, default="Не указано")
-
-    def __str__(self):
-        return self.name
-
-
 class CorpusPlaces(models.Model):
     corpus = models.ForeignKey(
         Corpus, blank=True, null=True,  on_delete=models.CASCADE)
@@ -126,26 +128,6 @@ class CorpusAuthors(models.Model):
         return self.corpus.name + self.author.name
 
 
-class CorpusResources(models.Model):
-    corpus = models.ForeignKey(
-        Corpus, blank=True, null=True,  on_delete=models.CASCADE)
-    resource = models.ForeignKey(
-        Resource, blank=True, null=True, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.corpus.name + self.resource.name
-
-
-class ResourceAuthors(models.Model):
-    resource = models.ForeignKey(
-        Resource, blank=True, null=True,  on_delete=models.CASCADE)
-    author = models.ForeignKey(
-        Author, blank=True, null=True,  on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.corpus.name + self.author.name
-
-
 class TextToText(models.Model):
     original = models.ForeignKey(
         Resource, blank=True, null=True, related_name='original', on_delete=models.CASCADE)
@@ -156,12 +138,11 @@ class TextToText(models.Model):
         return self.original.name + '->' + self.translated.name
 
 
-class Line(models.Model):
-    original_text = models.CharField(max_length=300, default="Не указано")
-    translated_text = models.CharField(max_length=300, default="Не указано")
-    position = models.IntegerField()
-    text = models.ForeignKey(
-        Resource, related_name='text', on_delete=models.CASCADE, blank=True, null=True)
+class Entity(models.Model):
+    position_start = models.IntegerField(default=0)
+    position_end = models.IntegerField(default=0)
+    origin_text = models.ForeignKey(
+        Resource, blank=True, null=True, related_name='origin_text', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.position.__str__() + self.original_text + self.translated_text
+        return self.position_start.__str__() + self.position_end + self.origin_text.name

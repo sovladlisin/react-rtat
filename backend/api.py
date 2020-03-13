@@ -1,9 +1,46 @@
-from backend.models import Test, Corpus, Resource, ResourceType, Author, Line, TextToText
+from backend.models import Test, Corpus, Resource, ResourceType, Author, TextToText, Place, CorpusPlaces, CorpusAuthors, TextToText, Entity
 from rest_framework import viewsets, permissions
-from .serializers import TestSerializer, CorpusSerializer, ResourceSerializer, ResourceTypeSerializer, AuthorSerializer, LineSerializer, TextToTextSerializer
+from .serializers import TestSerializer, CorpusSerializer, ResourceSerializer, ResourceTypeSerializer, AuthorSerializer, TextToTextSerializer, PlaceSerializer, CorpusPlacesSerializer, CorpusAuthorsSerializer, EntitySerializer
 
+
+class EntityViewSet(viewsets.ModelViewSet):
+    queryset = Entity.objects.all()
+    permission_classes = [
+        permissions.AllowAny
+    ]
+
+    serializer_class = EntitySerializer
+
+
+class CorpusAuthorsViewSet(viewsets.ModelViewSet):
+    queryset = CorpusAuthors.objects.all()
+    permission_classes = [
+        permissions.AllowAny
+    ]
+
+    serializer_class = CorpusAuthorsSerializer
+
+
+class CorpusPlacesViewSet(viewsets.ModelViewSet):
+    queryset = CorpusPlaces.objects.all()
+    permission_classes = [
+        permissions.AllowAny
+    ]
+
+    serializer_class = CorpusPlacesSerializer
+
+
+class PlaceViewSet(viewsets.ModelViewSet):
+    queryset = Place.objects.all()
+    permission_classes = [
+        permissions.AllowAny
+    ]
+
+    serializer_class = PlaceSerializer
 
 # TestViewSet
+
+
 class TestViewSet(viewsets.ModelViewSet):
     queryset = Test.objects.all()
     permission_classes = [
@@ -47,15 +84,6 @@ class AuthorViewSet(viewsets.ModelViewSet):
     ]
 
     serializer_class = AuthorSerializer
-
-
-class LineViewSet(viewsets.ModelViewSet):
-    queryset = Line.objects.all()
-    permission_classes = [
-        permissions.AllowAny
-    ]
-
-    serializer_class = LineSerializer
 
 
 class TextToTextViewSet(viewsets.ModelViewSet):

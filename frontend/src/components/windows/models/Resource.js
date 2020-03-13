@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getResource, getResourceTypes } from '../../../actions/resources';
 import { getAuthors } from '../../../actions/authors';
+import { getCorpuses } from '../../../actions/corpuses';
 
 
 export class Resource extends Component {
@@ -35,6 +36,7 @@ export class Resource extends Component {
         this.props.getResource(this.props.pk)
         this.props.getAuthors()
         this.props.getResourceTypes()
+        this.props.getCorpuses()
     }
 
     save() {
@@ -54,10 +56,19 @@ export class Resource extends Component {
             )
         })
 
+        const corpuse_select = this.props.corpuses.map((item) => {
+            return (
+                <option key={item.id} value={item.id}>{item.name}</option>
+            )
+        })
+
         if (Object.keys(this.props.selected).length != 0) {
             return (
                 <Fragment>
-
+                    <label>Корпус</label> <select name="corpus" id="corpus" value={this.props.selected['corpus']}>
+                        <option value="">Не указано</option>
+                        {corpuse_select}
+                    </select>
                     <label>Название</label> <input type="text" name="name" value={this.props.selected['name']} />
                     <label>Язык</label> <input type="text" name="language" value={this.props.selected['language']} />
                     <label>Диалект</label> <input type="text" name="dialect" value={this.props.selected['dialect']} />
@@ -128,13 +139,15 @@ export class Resource extends Component {
 const mapDispatchToProps = {
     getResource,
     getResourceTypes,
-    getAuthors
+    getAuthors,
+    getCorpuses
 };
 
 const mapStateToProps = state => ({
     selected: state.resources.selected,
     types: state.resources.types,
-    authors: state.authors.all
+    authors: state.authors.all,
+    corpuses: state.corpuses.all
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Resource);

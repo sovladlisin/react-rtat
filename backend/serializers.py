@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from backend.models import Test, Corpus, Resource, ResourceType, Author, Line, TextToText
+from backend.models import Test, Corpus, Resource, ResourceType, Author, TextToText, Place, CorpusPlaces, CorpusAuthors, TextToText, Entity
 
 
 class TestSerializer(serializers.ModelSerializer):
@@ -8,9 +8,33 @@ class TestSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class PlaceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Place
+        fields = '__all__'
+
+
+class CorpusPlacesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CorpusPlaces
+        fields = '__all__'
+
+
+class CorpusAuthorsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CorpusAuthors
+        fields = '__all__'
+
+
 class TextToTextSerializer(serializers.ModelSerializer):
     class Meta:
         model = TextToText
+        fields = '__all__'
+
+
+class EntitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Entity
         fields = '__all__'
 
 
@@ -36,10 +60,4 @@ class ResourceTypeSerializer(serializers.ModelSerializer):
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
-        fields = '__all__'
-
-
-class LineSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Line
         fields = '__all__'
