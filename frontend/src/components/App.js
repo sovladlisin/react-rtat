@@ -51,11 +51,13 @@ class App extends Component {
                         <Header handler={this.handler} />
                         <Container ref="container" />
 
-
                         {this.state.activeComponent === 'Library' ? (<Library createWindow={this.createWindow} />) : null}
                         <Switch>
-                            <Route exact path="/" component={Info} />
-                            <Route exact path="/editor/text/:pk" component={Editor} />
+                            <Route
+                                exact path="/" component={Info} />
+                            <Route
+                                exact path="/editor/text/:pk"
+                                render={(props) => <Editor {...props} createWindow={this.createWindow} />} />
                         </Switch>
 
                     </Fragment>

@@ -138,7 +138,30 @@ class TextToText(models.Model):
         return self.original.name + '->' + self.translated.name
 
 
+class Class(models.Model):
+    parent = models.ForeignKey(
+        'self', blank=True, null=True, related_name='class_parent', on_delete=models.PROTECT)
+    corpus = models.ForeignKey(
+        Corpus, blank=True, null=True, on_delete=models.CASCADE)
+    name = models.CharField(max_length=300, default="Не указано")
+
+    def __str__(self):
+        return self.name
+
+
+class Object(models.Model):
+    parent_class = models.ForeignKey(
+        Class, blank=True, null=True, on_delete=models.CASCADE)
+    name = models.CharField(max_length=300, default="Не указано")
+
+    def __str__(self):
+        return self.name
+
+
 class Entity(models.Model):
+    obj = models.ForeignKey(
+        Object, blank=True, null=True, related_name='object', on_delete=models.CASCADE)
+
     position_start = models.IntegerField(default=0)
     position_end = models.IntegerField(default=0)
     origin_text = models.ForeignKey(

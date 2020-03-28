@@ -1,5 +1,5 @@
 from rest_framework import routers
-from .api import TestViewSet, CorpusViewSet, ResourceViewSet, ResourceTypeViewSet, AuthorViewSet, TextToTextViewSet, PlaceViewSet, CorpusPlacesViewSet, CorpusAuthorsViewSet, EntityViewSet
+from .api import ClassViewSet, ObjectViewSet, TestViewSet, CorpusViewSet, ResourceViewSet, ResourceTypeViewSet, AuthorViewSet, TextToTextViewSet, PlaceViewSet, CorpusPlacesViewSet, CorpusAuthorsViewSet, EntityViewSet
 
 router = routers.DefaultRouter()
 router.register('api/test', TestViewSet, 'test')
@@ -12,6 +12,8 @@ router.register('api/place', PlaceViewSet, 'place')
 router.register('api/corpusPlaces', CorpusPlacesViewSet, 'corpusPlaces')
 router.register('api/corpusAuthors', CorpusAuthorsViewSet, 'corpusAuthors')
 router.register('api/entity', EntityViewSet, 'entity')
+router.register('api/class', ClassViewSet, 'class')
+router.register('api/object', ObjectViewSet, 'object')
 
 
 urlpatterns = router.urls

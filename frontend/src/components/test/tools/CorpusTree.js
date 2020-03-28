@@ -6,6 +6,7 @@ import { getCorpuses } from '../../../actions/corpuses';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TreeNode from './Tree/TreeNode';
+import CorpusInfo from './Tree/CorpusInfo';
 
 export class CorpusTree extends Component {
 
@@ -14,7 +15,7 @@ export class CorpusTree extends Component {
     }
 
     state = {
-        tree: []
+        tree: [],
     }
 
 
@@ -72,7 +73,17 @@ export class CorpusTree extends Component {
     }
 
     getCorpusInfo = (pk) => {
-        console.log('TODO CORPUS INFO', pk)
+        this.setState({
+            corpus_info_pk: pk
+        })
+    }
+
+    renderCorpusInfo = () => {
+        if (this.state.corpus_info_pk != undefined) {
+            return (
+                <CorpusInfo pk={this.state.corpus_info_pk} createWindow={this.props.createWindow}></CorpusInfo>
+            )
+        }
     }
 
     render() {
@@ -82,6 +93,7 @@ export class CorpusTree extends Component {
                 <div className="column" style={style}>
                     {this.renderTree()}
                 </div>
+                {this.renderCorpusInfo()}
             </Fragment>
         )
     }

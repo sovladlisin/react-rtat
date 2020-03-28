@@ -45,7 +45,7 @@ export class Resources extends Component {
                 </div>
                 <div className="column">
                     {this.state.selected_data.map(item => (
-                        <Pin key={item.id} model_name='resource' pk={item.id} createWindow={this.props.createWindow} name={item.name} />
+                        <Pin key={item.id} model_name='resource' createWindow={this.props.createWindow} pk={item.id} name={item.name} />
                     ))}
                 </div>
             </Fragment>

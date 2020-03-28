@@ -1,0 +1,59 @@
+.header{
+    width: 100%;
+    height: 50px;
+    position: sticky;
+    top: 0;
+    background: white;
+    overflow: hidden;
+    -webkit-box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);
+    box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);
+}
+.header div{
+    float: left;
+    width: 200px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    transition: 0.3s;
+}
+.header div a>p{
+    width: inherit;
+    height: inherit;
+    font-size: 10pt;
+    color: black;
+}
+.header div button{
+    width: inherit;
+    height: inherit;
+    background:none;
+}
+.header div button>p{
+    width: inherit;
+    height: inherit;
+    font-size: 10pt;
+    color: black;
+    line-height:50px;
+}
+.header div:hover{
+    background-color: rgb(230, 230, 230);
+    cursor: pointer;
+}
+
+.info {
+    width: 900px;
+    margin: 10px auto;
+    background: white;
+    padding: 20px;
+    line-height: 24px;
+}
+
+.info p {
+    padding: 10px;
+    text-indent: 30px;
+}
+.info p a{
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}

@@ -1,12 +1,173 @@
 .text-editor {
     width: 900px;
-    margin: 30px auto;
+    margin: 10px auto;
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: 30px auto auto;
     grid-gap: 10px;
 }
 
 .text-editor p {
     background: white;
     padding: 5px;
+}
+
+.text-info {
+    width: 900px;
+    margin: 10px auto;
+    display: grid;
+    grid-template-columns: 80px auto;
+    gap: 5px;
+    font-size: 10pt;
+}
+.text-info>p{
+    height: 30px;
+    line-height: 35px;
+    margin: 5px;
+}
+.text-navbar {
+    width: 900px;
+    margin: 10px auto;
+    height: 30px;
+    background: #d7d3d3;
+    font-size: 9pt;
+    padding-left: 10px;
+}
+.text-navbar>p{
+    float: left;
+    height: 30px;
+    line-height: 30px;
+    margin: 0 5px;
+}
+.text-navbar>input{
+    float: left;
+    width: 50px;
+    height: 20px;
+    margin: 5px 10px;
+    text-align: center;
+}
+.text-editor button {
+    width: 20px;
+    height: 20px;
+    background: grey;
+}
+button.create-entity {
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    margin: 20px;
+    background: gray;
+    font-size: 17pt;
+    color: white;
+    font-weight: bold;
+}
+.create-entity-panel {
+    width: 600px;
+    max-height: 280px;
+    background: white;
+    overflow: auto;
+    position: fixed;
+    left: 7%;
+    bottom: 0;
+    margin: 20px;
+    z-index: 999;
+    -webkit-box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);
+    box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);
+}
+.create-entity-panel .elements {
+    display: grid;
+    width: auto;
+    grid-template-columns: 30px auto;
+    gap: 5px;
+    padding: 10px;
+    background: gainsboro;
+}
+.create-entity-panel >p {
+    height: 30px;
+    font-size: 13pt;
+    padding: 10px;
+    line-height: 30px;
+}
+.create-entity-panel >select {
+    width: inherit;
+    padding: 10px;
+    background: gainsboro;
+}
+.create-entity-panel >button {
+    width: inherit;
+    padding: 10px;
+    text-align: center;
+    line-height: 25px;
+    transition: 0.3s;
+    border: none;
+}
+.create-entity-panel >button:hover {
+    background: black;
+    color: white;
+}
+.text-panel {
+    font-size: 9pt;
+}
+.object-panel {
+    width: 600px;
+    height: 400px;
+    position: fixed;
+    overflow-x: hidden;
+    overflow-y: auto;
+    right: 20px;
+    bottom: 20px;
+    background: white;
+    transition: 0.4s;
+    z-index: 999;
+    -webkit-box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);
+    box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);
+}
+.object-panel .head {
+    height: 30px;
+    width: 100%;
+    color: black;
+}
+
+.object-panel button.close {
+    height: 30px;
+    width: 30px;
+    float: right;
+}
+.object-panel .head>p {
+    height: 30px;
+    line-height: 30px;
+    float: left;
+    font-size: 11pt;
+    padding: 0 5px;
+}
+button.open-sidebar {
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    bottom: 60px;
+    left: 0;
+    margin: 20px;
+    background: gray;
+    font-size: 25pt;
+    color: white;
+}
+.object-list {
+    width: 100%;
+    padding: 10px;
+    background: gainsboro;
+    max-height: 200px;
+    overflow: auto;
+}
+.object-highlight {
+    width: 35px;
+    height: 35px;
+    margin: 5px 0px;
+    float: left;
+    background: white;
+    -webkit-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
+    box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
 }

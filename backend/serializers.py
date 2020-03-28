@@ -1,5 +1,17 @@
 from rest_framework import serializers
-from backend.models import Test, Corpus, Resource, ResourceType, Author, TextToText, Place, CorpusPlaces, CorpusAuthors, TextToText, Entity
+from backend.models import Class, Object, Test, Corpus, Resource, ResourceType, Author, TextToText, Place, CorpusPlaces, CorpusAuthors, TextToText, Entity
+
+
+class ObjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Object
+        fields = '__all__'
+
+
+class ClassSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Class
+        fields = '__all__'
 
 
 class TestSerializer(serializers.ModelSerializer):

@@ -1,6 +1,25 @@
-from backend.models import Test, Corpus, Resource, ResourceType, Author, TextToText, Place, CorpusPlaces, CorpusAuthors, TextToText, Entity
+from django.db.models import Q
+from backend.models import Class, Object, Test, Corpus, Resource, ResourceType, Author, TextToText, Place, CorpusPlaces, CorpusAuthors, TextToText, Entity
 from rest_framework import viewsets, permissions
-from .serializers import TestSerializer, CorpusSerializer, ResourceSerializer, ResourceTypeSerializer, AuthorSerializer, TextToTextSerializer, PlaceSerializer, CorpusPlacesSerializer, CorpusAuthorsSerializer, EntitySerializer
+from .serializers import ObjectSerializer, ClassSerializer, TestSerializer, CorpusSerializer, ResourceSerializer, ResourceTypeSerializer, AuthorSerializer, TextToTextSerializer, PlaceSerializer, CorpusPlacesSerializer, CorpusAuthorsSerializer, EntitySerializer
+
+
+class ClassViewSet(viewsets.ModelViewSet):
+    queryset = Class.objects.all()
+    permission_classes = [
+        permissions.AllowAny
+    ]
+
+    serializer_class = ClassSerializer
+
+
+class ObjectViewSet(viewsets.ModelViewSet):
+    queryset = Object.objects.all()
+    permission_classes = [
+        permissions.AllowAny
+    ]
+
+    serializer_class = ObjectSerializer
 
 
 class EntityViewSet(viewsets.ModelViewSet):

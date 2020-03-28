@@ -2,6 +2,8 @@ import React, { Component, Fragment } from 'react'
 import Window from './Window'
 
 
+
+
 export class Container extends Component {
 
     constructor(props, className, id) {
@@ -15,6 +17,7 @@ export class Container extends Component {
 
     state = {
         windows: {},
+        windows2: {},
         n: 5,
         hidden_windows: []
     };
@@ -98,7 +101,6 @@ export class Container extends Component {
     }
 
 
-
     render() {
         return (
             <Fragment>
@@ -114,4 +116,6 @@ export class Container extends Component {
     }
 }
 
-export default Container
+
+
+export default Container;

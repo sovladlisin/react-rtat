@@ -7,6 +7,10 @@ import PropTypes from 'prop-types';
 import Draggable, { DraggableCore } from 'react-draggable'; // Both at the same time
 import Resource from './models/Resource';
 import Corpus from './models/Corpus';
+import Place from './models/Place';
+import Author from './models/Author';
+import ClassObject from './models/ClassObject';
+import Class from './models/Class';
 
 
 export class Window extends Component {
@@ -44,6 +48,18 @@ export class Window extends Component {
 
             case 'corpus':
                 return <Corpus pk={this.props.pk} />
+
+            case 'place':
+                return <Place pk={this.props.pk} />
+
+            case 'author':
+                return <Author pk={this.props.pk} />
+
+            case 'object':
+                return <ClassObject pk={this.props.pk} />
+
+            case 'class':
+                return <Class pk={this.props.pk} />
 
             default:
                 return "Empty window"

@@ -1,6 +1,16 @@
 import React, { Component } from 'react'
 
+
+
 export class Pin extends Component {
+
+    state = {
+        style: {
+
+        }
+    }
+
+
     render() {
         return (
             <div className="pin">
@@ -18,4 +28,5 @@ export class Pin extends Component {
     }
 }
 
-export default Pin
+
+export default Pin;

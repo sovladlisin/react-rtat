@@ -40,6 +40,7 @@
 .pin{
     width: 190px;
     height: 35px;
+    float: left;
     font-size: 7pt;
     margin: 5px;
     color: black;
