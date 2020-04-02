@@ -88,7 +88,6 @@ export class Editor extends Component {
 
         const closed_style = {
             background: "#82aa82",
-            fontSize: "0pt"
         }
 
 
@@ -104,7 +103,7 @@ export class Editor extends Component {
                         data-position={position}
                         onDragStart={(e) => this.transferLine(e, position)}
                         draggable>
-                        <i data-position={position} class="fas fa-plus"></i>
+                        {position}
                     </button>
                     <p data-position={position}>{item}</p>
                     <p data-position={position}>{translated_text[original_text.indexOf(item)]}</p>
