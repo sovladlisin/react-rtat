@@ -3,6 +3,9 @@ import qs from 'qs';
 
 import { GET_OBJECT, GET_OBJECTS, GET_ENTITIES_TEXT, GET_ENTITIES_OBJECT, ADD_ENTITY, DELETE_ENTITY } from './types';
 
+
+
+
 //GET OBJECTS
 export const getObjects = () => dispatch => {
     axios.get('/api/object/').then(res => {
@@ -26,6 +29,8 @@ export const getObject = id => dispatch => {
 
 //CREATE ENTITY
 export const addEntity = entity => dispatch => {
+    axios.defaults.xsrfCookieName = 'csrftoken'
+    axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
     const er = qs.stringify(entity)
     axios.post(`/api/entity/`, er).then(res => {
         dispatch({
@@ -37,6 +42,8 @@ export const addEntity = entity => dispatch => {
 
 //DELETE ENTITY
 export const deleteEntity = id => dispatch => {
+    axios.defaults.xsrfCookieName = 'csrftoken'
+    axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
     axios.delete(`/api/entity/${id}`).then(res => {
         dispatch({
             type: DELETE_ENTITY,
