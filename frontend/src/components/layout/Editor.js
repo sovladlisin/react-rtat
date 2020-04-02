@@ -57,14 +57,14 @@ export class Editor extends Component {
                         })
                 })
             this.props.getCorpusObjects(original.corpus)
-            this.props.getEntitiesFromText(original.corpus)
-
+            this.props.getEntitiesFromText(original.id)
         }
     }
 
     componentDidMount() {
         const pk = this.props.match.params.pk
         this.props.getResourceWorkspace(pk)
+        console.log(pk)
     }
 
     renderTexts = () => {
