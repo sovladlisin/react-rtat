@@ -1,9 +1,6 @@
 .text-editor {
     width: 900px;
     margin: 10px auto;
-    display: grid;
-    grid-template-columns: 30px auto auto;
-    grid-gap: 10px;
 }
 
 .text-editor p {
@@ -49,6 +46,9 @@
     width: 20px;
     height: 20px;
     background: grey;
+    color: white;
+    font-size: 8pt;
+    line-height: 20px;
 }
 button.create-entity {
     width: 50px;
@@ -111,8 +111,8 @@ button.create-entity {
     font-size: 9pt;
 }
 .object-panel {
-    width: 600px;
-    height: 400px;
+    width: 500px;
+    max-height: 400px;
     position: fixed;
     overflow-x: hidden;
     overflow-y: auto;
@@ -160,6 +160,9 @@ button.open-sidebar {
     background: gainsboro;
     max-height: 200px;
     overflow: auto;
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 10px;
 }
 .object-highlight {
     width: 35px;
@@ -167,7 +170,27 @@ button.open-sidebar {
     margin: 5px 0px;
     float: left;
     background: white;
+    line-height: 35px;
+    font-size: 12pt;
+    text-align: center;
     -webkit-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
     -moz-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
     box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
+}
+.line {
+    width: 900px;
+    display: grid;
+    grid-template-columns: 30px 425px 425px;
+    grid-gap: 10px;
+    padding: 5px;
+}
+.test {
+    background: red;
+    width: 50px;
+    height: 50px;
+}
+.test2 {
+    background: grey;
+    width: 200px;
+    height: 200px;
 }

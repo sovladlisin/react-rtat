@@ -16,7 +16,6 @@ export class CreateEntity extends Component {
         this.setState({
             selected_obj: e.target.value
         })
-        console.log(this.state)
     }
 
     render() {

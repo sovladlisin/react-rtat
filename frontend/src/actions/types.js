@@ -29,6 +29,12 @@ export const GET_CLASSES = "GET_CLASSES"
 export const GET_OBJECT = "GET_OBJECT"
 export const GET_OBJECTS = "GET_OBJECTS"
 
+export const ADD_ENTITY = "ADD_ENTITY"
+export const DELETE_ENTITY = "DELETE_ENTITY"
+export const GET_ENTITIES_TEXT = "GET_ENTITIES_TEXT"
+export const GET_ENTITIES_OBJECT = "GET_ENTITIES_OBJECT"
+
+
 
 
 
