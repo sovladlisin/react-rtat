@@ -75,7 +75,7 @@ export class ClassObject extends Component {
             return (
                 <Fragment>
                     <label>Название</label><input type="text" name="name" value={this.props.selected['name']} />
-                    <label>Класс</label><select name="class" id="class" value={this.props.selected['class']}>
+                    <label>Класс</label><select name="class" id="class" value={this.props.selected['parent_class']}>
                         {class_select}
                     </select>
                 </Fragment>
