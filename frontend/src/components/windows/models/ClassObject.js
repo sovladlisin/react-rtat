@@ -89,6 +89,7 @@ export class ClassObject extends Component {
     }
 
     addLine = (e, cat) => {
+        e.preventDefault()
         const position = e.dataTransfer.getData("position")
         const text_id = e.dataTransfer.getData("text")
         var new_lines = this.state.new_lines
