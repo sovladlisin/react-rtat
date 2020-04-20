@@ -1,10 +1,11 @@
 import axios from 'axios';
 
 import { GET_PLACES, GET_PLACE } from './types';
+import { tokenConfig } from './auth'
 
 //GET PLACES
-export const getPlaces = () => dispatch => {
-    axios.get('/api/place/').then(res => {
+export const getPlaces = () => (dispatch, getState) => {
+    axios.get('/api/place/', tokenConfig(getState)).then(res => {
         dispatch({
             type: GET_PLACES,
             payload: res.data
@@ -13,8 +14,8 @@ export const getPlaces = () => dispatch => {
 }
 
 //GET PLACE
-export const getPlace = id => dispatch => {
-    axios.get(`/api/place/${id}/`).then(res => {
+export const getPlace = id => (dispatch, getState) => {
+    axios.get(`/api/place/${id}/`, tokenConfig(getState)).then(res => {
 
         dispatch({
             type: GET_PLACE,

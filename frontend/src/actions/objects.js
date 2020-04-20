@@ -2,13 +2,13 @@ import axios from 'axios';
 import qs from 'qs';
 
 import { GET_OBJECT, GET_OBJECTS, GET_ENTITIES_TEXT, GET_ENTITIES_OBJECT, ADD_ENTITY, DELETE_ENTITY } from './types';
-
+import { tokenConfig } from './auth'
 
 
 
 //GET OBJECTS
-export const getObjects = () => dispatch => {
-    axios.get('/api/object/').then(res => {
+export const getObjects = () => (dispatch, getState) => {
+    axios.get('/api/object/', tokenConfig(getState)).then(res => {
         dispatch({
             type: GET_OBJECTS,
             payload: res.data
@@ -18,8 +18,8 @@ export const getObjects = () => dispatch => {
 
 
 //GET OBJECT
-export const getObject = id => dispatch => {
-    axios.get(`/api/object/${id}/`).then(res => {
+export const getObject = id => (dispatch, getState) => {
+    axios.get(`/api/object/${id}/`, tokenConfig(getState)).then(res => {
         dispatch({
             type: GET_OBJECT,
             payload: res.data
@@ -28,11 +28,9 @@ export const getObject = id => dispatch => {
 }
 
 //CREATE ENTITY
-export const addEntity = entity => dispatch => {
-    axios.defaults.xsrfCookieName = 'csrftoken'
-    axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
+export const addEntity = entity => (dispatch, getState) => {
     const er = qs.stringify(entity)
-    axios.post(`/api/entity/`, er).then(res => {
+    axios.post(`/api/entity/`, er, tokenConfig(getState)).then(res => {
         dispatch({
             type: ADD_ENTITY,
             payload: res.data
@@ -41,10 +39,8 @@ export const addEntity = entity => dispatch => {
 }
 
 //DELETE ENTITY
-export const deleteEntity = id => dispatch => {
-    axios.defaults.xsrfCookieName = 'csrftoken'
-    axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
-    axios.delete(`/api/entity/${id}`).then(res => {
+export const deleteEntity = id => (dispatch, getState) => {
+    axios.delete(`/api/entity/${id}`, tokenConfig(getState)).then(res => {
         dispatch({
             type: DELETE_ENTITY,
             payload: id
@@ -53,8 +49,8 @@ export const deleteEntity = id => dispatch => {
 }
 
 //GET ENTITIES FROM TEXT
-export const getEntitiesFromText = text_id => dispatch => {
-    axios.get(`/api/entity/`).then(res => {
+export const getEntitiesFromText = text_id => (dispatch, getState) => {
+    axios.get(`/api/entity/`, tokenConfig(getState)).then(res => {
         const result = res.data.filter(item => item.origin_text == text_id)
         dispatch({
             type: GET_ENTITIES_TEXT,
@@ -64,8 +60,8 @@ export const getEntitiesFromText = text_id => dispatch => {
 }
 
 //GET ENTITIES FROM OBJECT
-export const getEntitiesFromObject = object_id => dispatch => {
-    axios.get(`/api/entity/`).then(res => {
+export const getEntitiesFromObject = object_id => (dispatch, getState) => {
+    axios.get(`/api/entity/`, tokenConfig(getState)).then(res => {
         const result = res.data.filter(item => item.obj == object_id)
         dispatch({
             type: GET_ENTITIES_OBJECT,

@@ -8,6 +8,13 @@ import windows from './windows'
 import places from './places'
 import classes from './classes'
 import objects from './objects'
+import auth from './auth'
+import messages from './messages'
+import axios from 'axios';
+
+
+axios.defaults.xsrfCookieName = 'csrftoken'
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
 
 export default combineReducers({
     tests,
@@ -18,5 +25,7 @@ export default combineReducers({
     windows,
     places,
     classes,
-    objects
+    objects,
+    auth,
+    messages
 });

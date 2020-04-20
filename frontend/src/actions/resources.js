@@ -1,10 +1,11 @@
 import axios from 'axios';
 
 import { GET_RESOURCES, GET_RESOURCE, GET_RESOURCE_TYPES, GET_RESOURCE_WORKSPACE } from './types';
+import { tokenConfig } from './auth'
 
 //GET RESOURCES
-export const getResources = () => dispatch => {
-    axios.get('/api/resource/').then(res => {
+export const getResources = () => (dispatch, getState) => {
+    axios.get('/api/resource/', tokenConfig(getState)).then(res => {
         dispatch({
             type: GET_RESOURCES,
             payload: res.data
@@ -13,8 +14,8 @@ export const getResources = () => dispatch => {
 }
 
 //GET RESOURCE
-export const getResource = id => dispatch => {
-    axios.get(`/api/resource/${id}/`).then(res => {
+export const getResource = id => (dispatch, getState) => {
+    axios.get(`/api/resource/${id}/`, tokenConfig(getState)).then(res => {
         dispatch({
             type: GET_RESOURCE,
             payload: res.data
@@ -22,8 +23,8 @@ export const getResource = id => dispatch => {
     }).catch(err => console.log(err));
 }
 
-export const getResourceTypes = () => dispatch => {
-    axios.get('/api/resourceType/').then(res => {
+export const getResourceTypes = () => (dispatch, getState) => {
+    axios.get('/api/resourceType/', tokenConfig(getState)).then(res => {
         dispatch({
             type: GET_RESOURCE_TYPES,
             payload: res.data
@@ -31,12 +32,12 @@ export const getResourceTypes = () => dispatch => {
     }).catch(err => console.log(err));
 }
 
-export const getResourceWorkspace = id => dispatch => {
+export const getResourceWorkspace = id => (dispatch, getState) => {
 
     var parents, children = []
     var result = {}
 
-    axios.get(`/api/textToText/`).then(res => {
+    axios.get(`/api/textToText/`, tokenConfig(getState)).then(res => {
         parents = res.data.filter(item => item.translated == id).map(item => item.original)
         children = res.data.filter(item => item.original == id).map(item => item.translated)
 
@@ -48,9 +49,9 @@ export const getResourceWorkspace = id => dispatch => {
                 });
             }
             else { //has a translated version
-                axios.get(`/api/resource/${id}/`).then(res => {
+                axios.get(`/api/resource/${id}/`, tokenConfig(getState)).then(res => {
                     result['original'] = res.data
-                    axios.get(`/api/resource/${children[0]}/`).then(res => {
+                    axios.get(`/api/resource/${children[0]}/`, tokenConfig(getState)).then(res => {
                         result['translated'] = res.data
                         dispatch({
                             type: GET_RESOURCE_WORKSPACE,
@@ -61,9 +62,9 @@ export const getResourceWorkspace = id => dispatch => {
             }
         }
         else { // has an original
-            axios.get(`/api/resource/${id}/`).then(res => {
+            axios.get(`/api/resource/${id}/`, tokenConfig(getState)).then(res => {
                 result['translated'] = res.data
-                axios.get(`/api/resource/${parents[0]}/`).then(res => {
+                axios.get(`/api/resource/${parents[0]}/`, tokenConfig(getState)).then(res => {
                     result['original'] = res.data
                     dispatch({
                         type: GET_RESOURCE_WORKSPACE,

@@ -57,3 +57,39 @@
     text-decoration: underline;
     cursor: pointer;
 }
+.header>p {
+    float: right;
+    font-size: 8pt;
+    height: 50px;
+    line-height: 50px;
+    padding-right: 10px;
+}
+.auth-box {
+    width: 600px;
+    background: white;
+    -moz-box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);
+    box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);
+    margin: 30px auto;
+    padding: 40px;
+}
+
+
+.auth-box>form {
+    display: grid;
+    grid-template-columns: min-content auto;
+    gap: 10px;
+}
+.auth-box input{background: white;height: 30px;font-size: 10pt;padding-left: 5px;-webkit-box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);-moz-box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);box-shadow: 0px 1px 1px 1px rgba(0,0,0,0.2);}
+.auth-box p{height: 30px;font-size: 10pt;text-align: right;line-height: 30px;}
+.auth-box button{height: 30px;background: white;font-size: 10pt;line-height: 30px;-webkit-box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);-moz-box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);box-shadow: 0px 1px 1px 1px rgba(0,0,0,0.2);}
+.auth-box div{
+    height: 30px;
+    background: white;
+    line-height: 30px;
+    -webkit-box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);
+    box-shadow: 0px 1px 1px 1px rgba(0,0,0,0.2);
+    padding-left: 5px;
+    text-align: center;
+    font-size: 10pt;
+}

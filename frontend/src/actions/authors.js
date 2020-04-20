@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 import { GET_AUTHORS, GET_AUTHOR } from './types';
-
+import { tokenConfig } from './auth'
 //GET CORPUSES
-export const getAuthors = () => dispatch => {
-    axios.get('/api/author/').then(res => {
+export const getAuthors = () => (dispatch, getState) => {
+    axios.get('/api/author/', tokenConfig(getState)).then(res => {
         dispatch({
             type: GET_AUTHORS,
             payload: res.data
@@ -13,8 +13,8 @@ export const getAuthors = () => dispatch => {
 }
 
 //GET CORPUS
-export const getAuthor = id => dispatch => {
-    axios.get(`/api/author/${id}/`).then(res => {
+export const getAuthor = id => (dispatch, getState) => {
+    axios.get(`/api/author/${id}/`, tokenConfig(getState)).then(res => {
         dispatch({
             type: GET_AUTHOR,
             payload: res.data
