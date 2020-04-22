@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import store from '../../store';
 
 import { logout } from '../../actions/auth'
+import PrivateRoute from './PrivateRoute';
 
 export class Header extends Component {
 
@@ -24,14 +25,13 @@ export class Header extends Component {
         )
         const authLinks = (
             <Fragment>
-                <div style={style}><button onClick={this.props.logout}><p>Выход</p></button></div>
-                <p>{user ? 'Текущий пользователь: ' + user.username : null}</p>
+                <div><button onClick={() => { this.props.handler('Account') }}>{user ? 'Личный кабинет: ' + user.username : null}</button></div>
             </Fragment>
         )
         return (
             <div className="header">
                 <div><Link to="/"><p>Главная</p></Link></div>
-                <div><button onClick={this.props.handler}><p>Библиотека ресурсов</p></button></div>
+                <div><button onClick={() => { this.props.handler('Library') }}><p>Библиотека ресурсов</p></button></div>
                 {isAuthenticated ? authLinks : guestLinks}
 
                 {/* <div><Link to="/"><p>Главная</p></Link></div>

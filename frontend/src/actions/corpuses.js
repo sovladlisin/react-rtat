@@ -1,7 +1,11 @@
 import axios from 'axios';
 
-import { GET_CORPUSES, GET_CORPUS, GET_CORPUS_RESOURCES, GET_CORPUS_AUTHORS, GET_CORPUS_PLACES, GET_CORPUS_CLASSES, GET_CORPUS_OBJECTS } from './types';
+import { GET_CORPUSES, GET_CORPUS, GET_CORPUS_RESOURCES, GET_CORPUS_AUTHORS, GET_CORPUS_PLACES, GET_CORPUS_CLASSES, GET_CORPUS_OBJECTS, UPDATE_CORPUS } from './types';
 import { tokenConfig } from './auth'
+
+
+import qs from 'qs';
+
 //GET CORPUSES
 export const getCorpuses = () => (dispatch, getState) => {
     axios.get('/api/corpus/', tokenConfig(getState)).then(res => {
@@ -17,6 +21,18 @@ export const getCorpus = id => (dispatch, getState) => {
     axios.get(`/api/corpus/${id}/`, tokenConfig(getState)).then(res => {
         dispatch({
             type: GET_CORPUS,
+            payload: res.data
+        });
+    }).catch(err => console.log(err));
+}
+
+//UPDATE CORPUS
+export const updateCorpus = (id, corpus) => (dispatch, getState) => {
+    const body = JSON.stringify(corpus)
+
+    axios.put(`/api/corpus/${id}/`, body, tokenConfig(getState)).then(res => {
+        dispatch({
+            type: UPDATE_CORPUS,
             payload: res.data
         });
     }).catch(err => console.log(err));

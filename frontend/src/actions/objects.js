@@ -29,8 +29,8 @@ export const getObject = id => (dispatch, getState) => {
 
 //CREATE ENTITY
 export const addEntity = entity => (dispatch, getState) => {
-    const er = qs.stringify(entity)
-    axios.post(`/api/entity/`, er, tokenConfig(getState)).then(res => {
+    const body = JSON.stringify(entity)
+    axios.post(`/api/entity/`, body, tokenConfig(getState)).then(res => {
         dispatch({
             type: ADD_ENTITY,
             payload: res.data

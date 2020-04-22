@@ -16,6 +16,7 @@ import Info from './layout/Info';
 import PrivateRoute from './layout/PrivateRoute';
 
 import { loadUser } from '../actions/auth'
+import Account from './layout/Account';
 
 class App extends Component {
 
@@ -28,19 +29,23 @@ class App extends Component {
     }
 
     state = {
-        activeComponent: "",
+        account: false,
+        library: false
     };
 
-    handler() {
-        if (this.state.activeComponent == "") {
-            this.setState({
-                activeComponent: 'Library'
-            })
-        }
-        else {
-            this.setState({
-                activeComponent: ''
-            })
+    handler(choice) {
+        switch (choice) {
+            case 'Library':
+                this.setState({
+                    library: !this.state.library
+                })
+                break;
+            case 'Account':
+                this.setState({
+                    account: !this.state.account
+                })
+            default:
+                break;
         }
     };
 
@@ -60,11 +65,13 @@ class App extends Component {
                         <Header handler={this.handler} />
                         <Container ref="container" />
 
-                        {this.state.activeComponent === 'Library' ? (<Library createWindow={this.createWindow} />) : null}
+                        {this.state.library ? (<Library createWindow={this.createWindow} />) : null}
+                        {this.state.account ? (<Account handler={this.handler} />) : null}
                         <Switch>
                             <Route exact path="/" component={Info} />
                             <Route exact path="/login" component={Login} />
                             <Route exact path="/register" component={Register} />
+                            <PrivateRoute exact path="/account" component={Account} />
                             <Route
                                 exact path="/editor/text/:pk"
                                 render={(props) => <Editor {...props} createWindow={this.createWindow} />} />

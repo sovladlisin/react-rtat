@@ -111,7 +111,7 @@ div.pin>button {
 
 .window-content {
     overflow: auto;
-    height:440px;
+    height: 460px;
     padding: 5px;
 }
 .hidden-window-container div button {

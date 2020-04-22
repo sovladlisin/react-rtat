@@ -80,7 +80,7 @@ export class Window extends Component {
                             <button onClick={() => this.props.closeWindow(this.props.id)}><i className="fas fa-times"></i></button>
                             <button onClick={() => this.props.hideWindow(this.props.id)}><i className="far fa-eye"></i></button>
                         </div>
-                        <div className="window-content">
+                        <div className="window-content" id={this.props.pk + this.props.model_name}>
                             {this.fill()}
                         </div>
                     </div>

@@ -2,14 +2,23 @@ import React, { Component, Fragment } from 'react'
 import axios from 'axios';
 import ModelPanel from './ModelPanel';
 
-import { getCorpuses, getCorpus } from '../../../actions/corpuses';
+import { getCorpuses, getCorpus, updateCorpus } from '../../../actions/corpuses';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
 
 export class Corpus extends Component {
 
     constructor(props) {
         super(props)
+    }
+
+    state = {
+        name: '',
+        language: '',
+        dialect: '',
+        extras: '',
+        parent: ''
     }
 
     static propTypes = {
@@ -24,12 +33,24 @@ export class Corpus extends Component {
         return false
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.selected.id === this.props.pk) { this.setState(nextProps.selected) }
+    }
+
     componentDidMount() {
         this.props.getCorpus(this.props.pk)
         this.props.getCorpuses()
     }
 
     save = () => {
+        console.log(this.state)
+        const { name, language, dialect, extras, parent } = this.state
+        const corpus = { name, language, dialect, extras, parent }
+        this.props.updateCorpus(this.props.pk, corpus)
+    }
+
+    onChange = e => {
+        this.setState({ [e.target.name]: e.target.value })
     }
 
     renderForm = () => {
@@ -39,14 +60,15 @@ export class Corpus extends Component {
             )
         })
 
+
         if (Object.keys(this.props.selected).length != 0) {
             return (
                 <Fragment>
-                    <label>Название</label><input type="text" name="name" value={this.props.selected['name']} />
-                    <label>Язык</label><input type="text" name="language" value={this.props.selected['language']} />
-                    <label>Диатект</label><input type="text" name="dialect" value={this.props.selected['dialect']} />
-                    <label>Доп. инф.</label><input type="text" name="extras" value={this.props.selected['extras']} />
-                    <label>Родитель</label><select name="parent" id="parent" value={this.props.selected['parent']}>
+                    <label>Название</label><input onChange={this.onChange} type="text" name="name" value={this.state.name} />
+                    <label>Язык</label><input onChange={this.onChange} type="text" name="language" value={this.state.language} />
+                    <label>Диатект</label><input onChange={this.onChange} type="text" name="dialect" value={this.state.dialect} />
+                    <label>Доп. инф.</label><input onChange={this.onChange} type="text" name="extras" value={this.state.extras} />
+                    <label>Родитель</label><select onChange={this.onChange} name="parent" id="parent" value={this.state.parent}>
                         <option value="">Корень</option>
                         {parent_select}
                     </select>
@@ -72,6 +94,7 @@ export class Corpus extends Component {
 const mapDispatchToProps = {
     getCorpus,
     getCorpuses,
+    updateCorpus
 };
 
 const mapStateToProps = state => ({

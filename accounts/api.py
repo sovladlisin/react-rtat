@@ -17,7 +17,7 @@ class RegisterAPI(generics.GenericAPIView):
         user.save()
         return Response({
             "user": UserSerializer(user, context=self.get_serializer_context()).data,
-            "token": AuthToken.objects.create(user)[1]
+            "token": False
         })
 
 # Login API
@@ -28,12 +28,13 @@ class LoginAPI(generics.GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        serializer.is_valid(raise_exception=False)
         user = serializer.validated_data
-        _, token = AuthToken.objects.create(user)
+        token = AuthToken.objects.create(user)[1] if user.is_active else None
         return Response({
             "user": UserSerializer(user, context=self.get_serializer_context()).data,
-            "token": token
+            "token": token,
+            "active": user.is_active
         })
 
 # Get User API

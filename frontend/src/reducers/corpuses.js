@@ -1,4 +1,4 @@
-import { GET_CORPUSES, GET_CORPUS, GET_CORPUS_RESOURCES, GET_CORPUS_AUTHORS, GET_CORPUS_PLACES, GET_CORPUS_OBJECTS, GET_CORPUS_CLASSES } from "../actions/types.js";
+import { GET_CORPUSES, GET_CORPUS, GET_CORPUS_RESOURCES, GET_CORPUS_AUTHORS, GET_CORPUS_PLACES, GET_CORPUS_OBJECTS, GET_CORPUS_CLASSES, UPDATE_CORPUS } from "../actions/types.js";
 
 const initialState = {
     all: [],
@@ -20,6 +20,12 @@ export default function (state = initialState, action) {
         case GET_CORPUS:
             return {
                 ...state,
+                selected: action.payload
+            };
+        case UPDATE_CORPUS:
+            return {
+                ...state,
+                all: [...state.all, action.payload],
                 selected: action.payload
             };
         case GET_CORPUS_RESOURCES:
