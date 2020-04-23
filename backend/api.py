@@ -4,10 +4,13 @@ from rest_framework import viewsets, permissions
 from .serializers import ObjectSerializer, ClassSerializer, TestSerializer, CorpusSerializer, ResourceSerializer, ResourceTypeSerializer, AuthorSerializer, TextToTextSerializer, PlaceSerializer, CorpusPlacesSerializer, CorpusAuthorsSerializer, EntitySerializer
 
 
+perm = permissions.IsAuthenticated
+
+
 class ClassViewSet(viewsets.ModelViewSet):
     queryset = Class.objects.all()
     permission_classes = [
-        permissions.IsAuthenticated
+        perm
     ]
 
     serializer_class = ClassSerializer
@@ -16,7 +19,7 @@ class ClassViewSet(viewsets.ModelViewSet):
 class ObjectViewSet(viewsets.ModelViewSet):
     queryset = Object.objects.all()
     permission_classes = [
-        permissions.IsAuthenticated
+        perm
     ]
 
     serializer_class = ObjectSerializer
@@ -25,7 +28,7 @@ class ObjectViewSet(viewsets.ModelViewSet):
 class EntityViewSet(viewsets.ModelViewSet):
     queryset = Entity.objects.all()
     permission_classes = [
-        permissions.IsAuthenticated
+        perm
     ]
 
     serializer_class = EntitySerializer
@@ -34,7 +37,7 @@ class EntityViewSet(viewsets.ModelViewSet):
 class CorpusAuthorsViewSet(viewsets.ModelViewSet):
     queryset = CorpusAuthors.objects.all()
     permission_classes = [
-        permissions.IsAuthenticated
+        permissions.AllowAny
     ]
 
     serializer_class = CorpusAuthorsSerializer
@@ -43,7 +46,7 @@ class CorpusAuthorsViewSet(viewsets.ModelViewSet):
 class CorpusPlacesViewSet(viewsets.ModelViewSet):
     queryset = CorpusPlaces.objects.all()
     permission_classes = [
-        permissions.IsAuthenticated
+        perm
     ]
 
     serializer_class = CorpusPlacesSerializer
@@ -52,7 +55,7 @@ class CorpusPlacesViewSet(viewsets.ModelViewSet):
 class PlaceViewSet(viewsets.ModelViewSet):
     queryset = Place.objects.all()
     permission_classes = [
-        permissions.IsAuthenticated
+        perm
     ]
 
     serializer_class = PlaceSerializer
@@ -63,7 +66,7 @@ class PlaceViewSet(viewsets.ModelViewSet):
 class TestViewSet(viewsets.ModelViewSet):
     queryset = Test.objects.all()
     permission_classes = [
-        permissions.IsAuthenticated
+        perm
     ]
 
     serializer_class = TestSerializer
@@ -72,7 +75,7 @@ class TestViewSet(viewsets.ModelViewSet):
 class CorpusViewSet(viewsets.ModelViewSet):
     queryset = Corpus.objects.all()
     permission_classes = [
-        permissions.IsAuthenticated
+        perm
     ]
 
     serializer_class = CorpusSerializer
@@ -81,7 +84,7 @@ class CorpusViewSet(viewsets.ModelViewSet):
 class ResourceViewSet(viewsets.ModelViewSet):
     queryset = Resource.objects.all()
     permission_classes = [
-        permissions.IsAuthenticated
+        perm
     ]
 
     serializer_class = ResourceSerializer
@@ -90,7 +93,7 @@ class ResourceViewSet(viewsets.ModelViewSet):
 class ResourceTypeViewSet(viewsets.ModelViewSet):
     queryset = ResourceType.objects.all()
     permission_classes = [
-        permissions.IsAuthenticated
+        perm
     ]
 
     serializer_class = ResourceTypeSerializer
@@ -99,7 +102,7 @@ class ResourceTypeViewSet(viewsets.ModelViewSet):
 class AuthorViewSet(viewsets.ModelViewSet):
     queryset = Author.objects.all()
     permission_classes = [
-        permissions.IsAuthenticated
+        perm
     ]
 
     serializer_class = AuthorSerializer
@@ -108,7 +111,7 @@ class AuthorViewSet(viewsets.ModelViewSet):
 class TextToTextViewSet(viewsets.ModelViewSet):
     queryset = TextToText.objects.all()
     permission_classes = [
-        permissions.IsAuthenticated
+        perm
     ]
 
     serializer_class = TextToTextSerializer

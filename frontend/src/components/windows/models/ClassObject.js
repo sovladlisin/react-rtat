@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import ModelPanel from './ModelPanel';
 
 import { getClasses } from '../../../actions/classes';
-import { getObject, addEntity, getEntitiesFromObject, deleteEntity } from '../../../actions/objects';
+import { getObject, addEntity, getEntitiesFromObject, deleteEntity, updateObject } from '../../../actions/objects';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom'
@@ -15,7 +15,9 @@ export class ClassObject extends Component {
 
     state = {
         new_lines: [],
-        deleted_lines: []
+        deleted_lines: [],
+        name: '',
+        parent_class: null
     }
 
     static propTypes = {
@@ -30,6 +32,15 @@ export class ClassObject extends Component {
         if (nextState != this.state) return true
         if (nextProps.selected.id == this.props.pk) { return true }
         return false
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.selected.id === this.props.pk) {
+            this.setState({
+                name: nextProps.selected.name,
+                parent_class: nextProps.selected.parent_class
+            })
+        }
     }
 
     componentDidMount() {
@@ -51,11 +62,21 @@ export class ClassObject extends Component {
         this.state.deleted_lines.map(id => {
             this.props.deleteEntity(id)
         })
+
+        console.log(this.state)
+        const { name, parent_class } = this.state
+        const obj = { name, parent_class }
+        this.props.updateObject(this.props.pk, obj)
+
         this.setState({
             new_lines: [],
             deleted_lines: []
         })
 
+    }
+
+    onChange = e => {
+        this.setState({ [e.target.name]: e.target.value })
     }
 
     deleteEntity = (id) => {
@@ -74,8 +95,8 @@ export class ClassObject extends Component {
         if (Object.keys(this.props.selected).length != 0) {
             return (
                 <Fragment>
-                    <label>Название</label><input type="text" name="name" value={this.props.selected['name']} />
-                    <label>Класс</label><select name="class" id="class" value={this.props.selected['parent_class']}>
+                    <label>Название</label><input onChange={this.onChange} type="text" name="name" value={this.state.name} />
+                    <label>Класс</label><select onChange={this.onChange} name="parent_class" id="parent_class" value={this.state.parent_class}>
                         {class_select}
                     </select>
                 </Fragment>
@@ -163,7 +184,8 @@ const mapDispatchToProps = {
     getObject,
     addEntity,
     getEntitiesFromObject,
-    deleteEntity
+    deleteEntity,
+    updateObject
 };
 
 const mapStateToProps = state => ({

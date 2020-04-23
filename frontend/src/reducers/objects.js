@@ -1,4 +1,4 @@
-import { GET_OBJECT, GET_OBJECTS, GET_ENTITIES_TEXT, GET_ENTITIES_OBJECT, ADD_ENTITY, DELETE_ENTITY } from "../actions/types.js";
+import { GET_OBJECT, GET_OBJECTS, GET_ENTITIES_TEXT, GET_ENTITIES_OBJECT, ADD_ENTITY, DELETE_ENTITY, UPDATE_OBJECT } from "../actions/types.js";
 
 const initialState = {
     all: [],
@@ -41,6 +41,12 @@ export default function (state = initialState, action) {
                 ...state,
                 entities_object: [...state.entities_object.filter(item => item.id != action.payload)],
                 entities_text: [...state.entities_text.filter(item => item.id != action.payload)]
+            };
+        case UPDATE_OBJECT:
+            return {
+                ...state,
+                all: [...state.all, action.payload],
+                selected: action.payload
             };
         default:
             return state;

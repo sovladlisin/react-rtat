@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getPlace } from '../../../actions/place';
+import { getPlace, updatePlace } from '../../../actions/place';
 import ModelPanel from './ModelPanel';
 
 export class Place extends Component {
@@ -13,9 +13,18 @@ export class Place extends Component {
         getPlace: PropTypes.func.isRequired,
     };
 
+    state = {
+        name: '',
+        location: ''
+    }
+
     shouldComponentUpdate(nextProps, nextState) {
         if (nextProps.selected.id === this.props.pk) { return true }
         return false
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.selected.id === this.props.pk) { this.setState(nextProps.selected) }
     }
 
     componentDidMount() {
@@ -23,15 +32,20 @@ export class Place extends Component {
     }
 
     save = () => {
+        const obj = this.state
+        this.props.updatePlace(this.props.pk, obj)
+    }
+
+    onChange = e => {
+        this.setState({ [e.target.name]: e.target.value })
     }
 
     renderForm = () => {
-
         if (Object.keys(this.props.selected).length != 0) {
             return (
                 <Fragment>
-                    <label>Название</label><input type="text" name="name" value={this.props.selected['name']} />
-                    <label>Координаты</label><input type="text" name="language" value={this.props.selected['location']} />
+                    <label>Название</label><input onChange={this.onChange} type="text" name="name" value={this.state.name} />
+                    <label>Координаты</label><input onChange={this.onChange} type="text" name="location" value={this.state.location} />
                 </Fragment>
             )
         }
@@ -51,7 +65,8 @@ export class Place extends Component {
 }
 
 const mapDispatchToProps = {
-    getPlace
+    getPlace,
+    updatePlace
 };
 
 const mapStateToProps = state => ({

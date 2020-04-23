@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getAuthor } from '../../../actions/authors';
+import { getAuthor, updateAuthor } from '../../../actions/authors';
 import { getPlaces } from '../../../actions/place';
 import ModelPanel from './ModelPanel';
 
@@ -15,9 +15,24 @@ export class Author extends Component {
         getAuthor: PropTypes.func.isRequired,
     };
 
+    state = {
+        date_of_birth: "",
+        date_of_death: "",
+        initials: "",
+        name: "",
+        patronymic: "",
+        picture: "",
+        place_of_birth: null,
+        surname: ""
+    }
+
     shouldComponentUpdate(nextProps, nextState) {
         if (nextProps.selected.id === this.props.pk) { return true }
         return false
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.selected.id === this.props.pk) { this.setState(nextProps.selected) }
     }
 
     componentDidMount() {
@@ -26,7 +41,15 @@ export class Author extends Component {
     }
 
     save = () => {
+        console.log(this.state)
+        const author = this.state
+        this.props.updateAuthor(this.props.pk, author)
     }
+
+    onChange = e => {
+        this.setState({ [e.target.name]: e.target.value })
+    }
+
 
     renderForm = () => {
         const places_select = this.props.places.map((item) => {
@@ -37,15 +60,15 @@ export class Author extends Component {
         if (Object.keys(this.props.selected).length != 0) {
             return (
                 <Fragment>
-                    <label>Фамилия</label><input type="text" name="surname" value={this.props.selected['surname']} />
-                    <label>Имя</label><input type="text" name="name" value={this.props.selected['name']} />
-                    <label>Отчество</label><input type="text" name="patronymic" value={this.props.selected['patronymic']} />
-                    <label>Инициалы</label><input type="text" name="initials" value={this.props.selected['initials']} />
-                    <label>Дата рождения</label><input type="text" name="date_of_birth" value={this.props.selected['date_of_birth']} />
-                    <label>Дата смерти</label><input type="text" name="date_of_death" value={this.props.selected['date_of_death']} />
-                    <label>Изображение</label><input type="text" name="picture" value={this.props.selected['picture']} />
-                    <label>Место рождения</label><select name="place_of_birth" id="place_of_birth" value={this.props.selected['place_of_birth']}>
-                        <option value="">Не указано</option>
+                    <label>Фамилия</label><input onChange={this.onChange} type="text" name="surname" value={this.state.surname} />
+                    <label>Имя</label><input onChange={this.onChange} type="text" name="name" value={this.state.name} />
+                    <label>Отчество</label><input onChange={this.onChange} type="text" name="patronymic" value={this.state.patronymic} />
+                    <label>Инициалы</label><input onChange={this.onChange} type="text" name="initials" value={this.state.initials} />
+                    <label>Дата рождения</label><input onChange={this.onChange} type="text" name="date_of_birth" value={this.state.date_of_birth} />
+                    <label>Дата смерти</label><input onChange={this.onChange} type="text" name="date_of_death" value={this.state.date_of_death} />
+                    <label>Изображение</label><input onChange={this.onChange} type="text" name="picture" value={this.state.picture} />
+                    <label>Место рождения</label><select onChange={this.onChange} name="place_of_birth" id="place_of_birth" value={this.state.place_of_birth}>
+                        <option value=""></option>
                         {places_select}
                     </select>
                 </Fragment>
@@ -68,7 +91,8 @@ export class Author extends Component {
 
 const mapDispatchToProps = {
     getAuthor,
-    getPlaces
+    getPlaces,
+    updateAuthor
 };
 
 const mapStateToProps = state => ({

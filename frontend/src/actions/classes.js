@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { GET_CLASS, GET_CLASSES } from './types';
+import { GET_CLASS, GET_CLASSES, UPDATE_CLASS } from './types';
 import { tokenConfig } from './auth'
 //GET CLASSES
 export const getClasses = () => (dispatch, getState) => {
@@ -18,6 +18,18 @@ export const getClass = id => (dispatch, getState) => {
 
         dispatch({
             type: GET_CLASS,
+            payload: res.data
+        });
+    }).catch(err => console.log(err));
+}
+
+//UPDATE CLASS
+export const updateClass = (id, obj) => (dispatch, getState) => {
+    const body = JSON.stringify(obj)
+
+    axios.put(`/api/class/${id}/`, body, tokenConfig(getState)).then(res => {
+        dispatch({
+            type: UPDATE_CLASS,
             payload: res.data
         });
     }).catch(err => console.log(err));

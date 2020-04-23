@@ -4,7 +4,7 @@ import ModelPanel from './ModelPanel';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getResource, getResourceTypes } from '../../../actions/resources';
+import { getResource, getResourceTypes, updateResource } from '../../../actions/resources';
 import { getAuthors } from '../../../actions/authors';
 import { getCorpuses } from '../../../actions/corpuses';
 
@@ -25,10 +25,37 @@ export class Resource extends Component {
         getResource: PropTypes.func.isRequired
     };
 
+    state = {
+        areal: "",
+        author: null,
+        collector: null,
+        commentator: null,
+        corpus: null,
+        decryptor: null,
+        dialect: "",
+        extras: "",
+        language: "",
+        // link: "",
+        name: "",
+        origin_redactor: null,
+        place_of_recording: null,
+        published: "",
+        resource_type: null,
+        speech: "",
+        theme: "",
+        time_of_recording: "",
+        translation_redactor: null,
+        translator: null,
+        variants: ""
+    }
+
 
     shouldComponentUpdate(nextProps, nextState) {
         if (nextProps.selected.id === this.props.pk) { return true }
         return false
+    }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.selected.id === this.props.pk) { this.setState(nextProps.selected) }
     }
 
     componentDidMount() {
@@ -39,8 +66,49 @@ export class Resource extends Component {
         this.props.getCorpuses()
     }
 
-    save() {
-        console.log('TODO save')
+    onChange = e => {
+        this.setState({ [e.target.name]: e.target.value })
+    }
+
+    //without file save - todo?
+    save = () => {
+        const {
+            areal, author, collector, commentator,
+            corpus, decryptor,
+            dialect,
+            extras,
+            language,
+            name,
+            origin_redactor,
+            place_of_recording,
+            published,
+            resource_type,
+            speech,
+            theme,
+            time_of_recording,
+            translation_redactor,
+            translator,
+            variants
+        } = this.state
+        const obj = {
+            areal, author, collector, commentator,
+            corpus, decryptor,
+            dialect,
+            extras,
+            language,
+            name,
+            origin_redactor,
+            place_of_recording,
+            published,
+            resource_type,
+            speech,
+            theme,
+            time_of_recording,
+            translation_redactor,
+            translator,
+            variants
+        }
+        this.props.updateResource(this.props.pk, obj)
     }
 
     renderForm = () => {
@@ -65,52 +133,52 @@ export class Resource extends Component {
         if (Object.keys(this.props.selected).length != 0) {
             return (
                 <Fragment>
-                    <label>Корпус</label> <select name="corpus" id="corpus" value={this.props.selected['corpus']}>
-                        <option value="">Не указано</option>
+                    <label>Корпус</label>  <select onChange={this.onChange} name="corpus" id="corpus" value={this.state.corpus}>
+                        <option value=""></option>
                         {corpuse_select}
                     </select>
-                    <label>Название</label> <input type="text" name="name" value={this.props.selected['name']} />
-                    <label>Язык</label> <input type="text" name="language" value={this.props.selected['language']} />
-                    <label>Диалект</label> <input type="text" name="dialect" value={this.props.selected['dialect']} />
-                    <label>Говор</label> <input type="text" name="speech" value={this.props.selected['speech']} />
-                    <label>Жанр </label> <input type="text" name="theme" value={this.props.selected['theme']} />
-                    <label>Время записи </label> <input type="text" name="time_of_recording" value={this.props.selected['time_of_recording']} />
-                    <label>Опубликовано</label> <input type="text" name="published" value={this.props.selected['published']} />
-                    <label>Варианты </label> <input type="text" name="variants" value={this.props.selected['variants']} />
-                    <label>Ареал распространения </label> <input type="text" name="areal" value={this.props.selected['areal']} />
-                    <label>Дополнительно </label> <input type="text" name="extras" value={this.props.selected['extras']} />
-                    <label>Ссылка на файл</label> <input type="text" name="link" value={this.props.selected['link']} />
-                    <label>Тип</label><select name="resource_type" id="resource_type" value={this.props.selected['resource_type']}>
-                        <option value="">Не указано</option>
+                    <label>Название</label> <input onChange={this.onChange} type="text" name="name" value={this.state.name} />
+                    <label>Язык</label> <input onChange={this.onChange} type="text" name="language" value={this.state.language} />
+                    <label>Диалект</label> <input onChange={this.onChange} type="text" name="dialect" value={this.state.dialect} />
+                    <label>Говор</label> <input onChange={this.onChange} type="text" name="speech" value={this.state.speech} />
+                    <label>Жанр </label> <input onChange={this.onChange} type="text" name="theme" value={this.state.theme} />
+                    <label>Время записи </label> <input onChange={this.onChange} type="text" name="time_of_recording" value={this.state.time_of_recording} />
+                    <label>Опубликовано</label> <input onChange={this.onChange} type="text" name="published" value={this.state.published} />
+                    <label>Варианты </label> <input onChange={this.onChange} type="text" name="variants" value={this.state.variants} />
+                    <label>Ареал распространения </label> <input onChange={this.onChange} type="text" name="areal" value={this.state.areal} />
+                    <label>Дополнительно </label> <input onChange={this.onChange} type="text" name="extras" value={this.state.extras} />
+                    <label>Ссылка на файл</label> <input onChange={this.onChange} type="text" name="link" value={this.state.link} />
+                    <label>Тип</label> <select onChange={this.onChange} name="resource_type" id="resource_type" value={this.state.resource_type}>
+                        <option value=""></option>
                         {type_select}
                     </select>
-                    <label>Место записи </label> <input type="text" name="place_of_recording" value={this.props.selected['place_of_recording']} />
-                    <label>Исполнитель</label> <select name="author" id="author" value={this.props.selected['author']}>
-                        <option value="">Не указано</option>
+                    <label>Место записи </label> <input onChange={this.onChange} type="text" name="place_of_recording" value={this.state.place_of_recording} />
+                    <label>Исполнитель</label>  <select onChange={this.onChange} name="author" id="author" value={this.state.author}>
+                        <option value=""></option>
                         {author_select}
                     </select>
-                    <label>Собиратель</label> <select name="collector" id="collector" value={this.props.selected['collector']}>
-                        <option value="">Не указано</option>
+                    <label>Собиратель</label>  <select onChange={this.onChange} name="collector" id="collector" value={this.state.collector}>
+                        <option value=""></option>
                         {author_select}
                     </select>
-                    <label>Расшифровка аудиозаписи</label> <select name="decryptor" id="decryptor" value={this.props.selected['decryptor']}>
-                        <option value="">Не указано</option>
+                    <label>Расшифровка аудиозаписи</label>  <select onChange={this.onChange} name="decryptor" id="decryptor" value={this.state.decryptor}>
+                        <option value=""></option>
                         {author_select}
                     </select>
-                    <label>Перевод на русский язык</label> <select name="translator" id="translator" value={this.props.selected['translator']}>
-                        <option value="">Не указано</option>
+                    <label>Перевод на русский язык</label>  <select onChange={this.onChange} name="translator" id="translator" value={this.state.translator}>
+                        <option value=""></option>
                         {author_select}
                     </select>
-                    <label>Редактор перевода</label> <select name="translation_redactor" id="translation_redactor" value={this.props.selected['translation_redactor']}>
-                        <option value="">Не указано</option>
+                    <label>Редактор перевода</label>  <select onChange={this.onChange} name="translation_redactor" id="translation_redactor" value={this.state.translation_redactor}>
+                        <option value=""></option>
                         {author_select}
                     </select>
-                    <label>Редактор национального текста</label> <select name="origin_redactor" id="origin_redactor" value={this.props.selected['origin_redactor']}>
-                        <option value="">Не указано</option>
+                    <label>Редактор национального текста</label>  <select onChange={this.onChange} name="origin_redactor" id="origin_redactor" value={this.state.origin_redactor}>
+                        <option value=""></option>
                         {author_select}
                     </select>
-                    <label>Подготовка комментариев</label> <select name="commentator" id="commentator" value={this.props.selected['commentator']}>
-                        <option value="">Не указано</option>
+                    <label>Подготовка комментариев</label>  <select onChange={this.onChange} name="commentator" id="commentator" value={this.state.commentator}>
+                        <option value=""></option>
                         {author_select}
                     </select>
                 </Fragment>
@@ -140,7 +208,8 @@ const mapDispatchToProps = {
     getResource,
     getResourceTypes,
     getAuthors,
-    getCorpuses
+    getCorpuses,
+    updateResource
 };
 
 const mapStateToProps = state => ({

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import qs from 'qs';
 
-import { GET_OBJECT, GET_OBJECTS, GET_ENTITIES_TEXT, GET_ENTITIES_OBJECT, ADD_ENTITY, DELETE_ENTITY } from './types';
+import { GET_OBJECT, GET_OBJECTS, GET_ENTITIES_TEXT, GET_ENTITIES_OBJECT, ADD_ENTITY, DELETE_ENTITY, UPDATE_OBJECT } from './types';
 import { tokenConfig } from './auth'
 
 
@@ -66,6 +66,18 @@ export const getEntitiesFromObject = object_id => (dispatch, getState) => {
         dispatch({
             type: GET_ENTITIES_OBJECT,
             payload: result
+        });
+    }).catch(err => console.log(err));
+}
+
+//UPDATE OBJECT
+export const updateObject = (id, obj) => (dispatch, getState) => {
+    const body = JSON.stringify(obj)
+
+    axios.put(`/api/object/${id}/`, body, tokenConfig(getState)).then(res => {
+        dispatch({
+            type: UPDATE_OBJECT,
+            payload: res.data
         });
     }).catch(err => console.log(err));
 }

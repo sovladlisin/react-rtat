@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { GET_RESOURCES, GET_RESOURCE, GET_RESOURCE_TYPES, GET_RESOURCE_WORKSPACE } from './types';
+import { GET_RESOURCES, GET_RESOURCE, GET_RESOURCE_TYPES, GET_RESOURCE_WORKSPACE, UPDATE_RESOURCE } from './types';
 import { tokenConfig } from './auth'
 
 //GET RESOURCES
@@ -75,5 +75,17 @@ export const getResourceWorkspace = id => (dispatch, getState) => {
         }
     }).catch(err => console.log(err))
 
+}
+
+//UPDATE RESOURCE
+export const updateResource = (id, obj) => (dispatch, getState) => {
+    const body = JSON.stringify(obj)
+
+    axios.put(`/api/resource/${id}/`, body, tokenConfig(getState)).then(res => {
+        dispatch({
+            type: UPDATE_RESOURCE,
+            payload: res.data
+        });
+    }).catch(err => console.log(err));
 }
 

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import ModelPanel from './ModelPanel';
 
-import { getClass, getClasses } from '../../../actions/classes';
+import { getClass, getClasses, updateClass } from '../../../actions/classes';
 import { getCorpuses } from '../../../actions/corpuses';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -21,9 +21,19 @@ export class Class extends Component {
         getCorpuses: PropTypes.func.isRequired
     };
 
+    state = {
+        name: '',
+        parent: null,
+        corpus: null
+    }
+
     shouldComponentUpdate(nextProps, nextState) {
         if (nextProps.selected.id === this.props.pk) { return true }
         return false
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.selected.id === this.props.pk) { this.setState(nextProps.selected) }
     }
 
     componentDidMount() {
@@ -33,6 +43,12 @@ export class Class extends Component {
     }
 
     save = () => {
+        const obj = this.state
+        this.props.updateClass(this.props.pk, obj)
+    }
+
+    onChange = e => {
+        this.setState({ [e.target.name]: e.target.value })
     }
 
     renderForm = () => {
@@ -50,12 +66,12 @@ export class Class extends Component {
         if (Object.keys(this.props.selected).length != 0) {
             return (
                 <Fragment>
-                    <label>Название</label><input type="text" name="name" value={this.props.selected['name']} />
-                    <label>Родитель</label><select name="parent" id="parent" value={this.props.selected['parent']}>
+                    <label>Название</label><input onChange={this.onChange} type="text" name="name" value={this.state.name} />
+                    <label>Родитель</label><select onChange={this.onChange} name="parent" id="parent" value={this.state.parent}>
                         <option value="">Корень</option>
                         {parent_select}
                     </select>
-                    <label>Корпус</label><select name="corpus" id="corpus" value={this.props.selected['corpus']}>
+                    <label>Корпус</label><select onChange={this.onChange} name="corpus" id="corpus" value={this.state.corpus}>
                         {corpus_select}
                     </select>
                 </Fragment>
@@ -80,7 +96,8 @@ export class Class extends Component {
 const mapDispatchToProps = {
     getClass,
     getClasses,
-    getCorpuses
+    getCorpuses,
+    updateClass
 };
 
 const mapStateToProps = state => ({
