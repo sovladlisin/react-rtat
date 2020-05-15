@@ -17,5 +17,5 @@ router.register('api/entity', EntityViewSet, 'entity')
 router.register('api/class', ClassViewSet, 'class')
 router.register('api/object', ObjectViewSet, 'object')
 
-urlpatterns = [path('loaderio-dad475efde7ab1a335f97bc6bf875046',
+urlpatterns = [path('loaderio-dad475efde7ab1a335f97bc6bf875046/',
                     LoadCheck, name='loadcheck')] + router.urls
