@@ -72,7 +72,7 @@ class App extends Component {
                             <Route exact path="/" component={Info} />
                             <Route exact path="/login" component={Login} />
                             <Route exact path="/register" component={Register} />
-                            <Route exact path="/loaderio-dad475efde7ab1a335f97bc6bf875046/" component={LoadCheck} />
+                            <Route exact path="/loaderio-dad475efde7ab1a335f97bc6bf875046" component={LoadCheck} />
                             <PrivateRoute exact path="/account" component={Account} />
                             <Route
                                 exact path="/editor/text/:pk"
