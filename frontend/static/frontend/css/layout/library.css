@@ -14,9 +14,8 @@
     -moz-box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);
     box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);
 }
-.library-block .column, .library-block .menu{
+.column, .library-block .menu{
     float:left;
-    width: 200px;
     height: 300px;
     overflow: auto;
     padding: 0px 15px;
@@ -29,35 +28,33 @@
     ) 1 100%;
     font-size: 10pt;
 }
-.library-block .column div.item, .library-block .menu div.item{
+.column div.item, .library-block .menu div.item{
     width:150px;
     height:30px;
     padding:5px 10px;
 }
-.library-block .column div.item:hover, .library-block .menu div.item:hover{
+.column div.item:hover, .library-block .menu div.item:hover{
     background: rgb(230, 230, 230);
     cursor: pointer;
 }
-.library-block .column div.item button, .library-block .menu div.item button{
+.column div.item button, .library-block .menu div.item button{
     width:inherit;
     height:inherit;
     text-align: left;
 }
-.library-block .corpus-info{
+.corpus-info{
     grid-template-columns: 100px auto;
     display: grid;
     gap: 5px;
     padding: 10px;
 }
-.library-block .corpus-resources {
+.corpus-resources {
     padding: 10px;
-    width: 400px;
     display: grid;
     grid-template-columns: auto auto;
     background: #efecec;
 }
-.library-block .spacer {
-    width: 400px;
+.spacer {
     padding: 10px;
     background: #eecece;
 }

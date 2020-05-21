@@ -40,24 +40,6 @@
     background-color: rgb(230, 230, 230);
     cursor: pointer;
 }
-
-.info {
-    width: 900px;
-    margin: 10px auto;
-    background: white;
-    padding: 20px;
-    line-height: 24px;
-}
-
-.info p {
-    padding: 10px;
-    text-indent: 30px;
-}
-.info p a{
-    color: blue;
-    text-decoration: underline;
-    cursor: pointer;
-}
 .header>p {
     float: right;
     font-size: 8pt;
@@ -118,4 +100,16 @@
     color: white;
     background: darkgray;
     transition: 0.3s;
+}
+
+#app>.info {
+    margin: 50px auto;
+    background: white;
+    padding: 30px;
+    text-indent: 1.5em; /* Отступ первой строки */
+    text-align: justify;
+    width: 900px;
+}
+#app>.info>p{
+    padding:10px 0
 }

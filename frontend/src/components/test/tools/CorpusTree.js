@@ -87,10 +87,9 @@ export class CorpusTree extends Component {
     }
 
     render() {
-        var style = { width: '300px' }
         return (
             <Fragment>
-                <div className="column" style={style}>
+                <div className="column" >
                     {this.renderTree()}
                 </div>
                 {this.renderCorpusInfo()}

@@ -3,12 +3,14 @@ export const GET_TESTS = "GET_TESTS"
 export const GET_RESOURCES = "GET_RESOURCES"
 export const GET_RESOURCE = "GET_RESOURCE"
 export const GET_RESOURCE_TYPES = "GET_RESOURCE_TYPES"
+export const CREATE_RESOURCE_TYPE = 'CREATE_RESOURCE_TYPE';
 export const GET_RESOURCE_WORKSPACE = "GET_RESOURCE_WORKSPACE"
 export const UPDATE_RESOURCE = "UPDATE_RESOURCE"
 
 export const GET_PIN_WINDOW = "GET_PIN_WINDOW"
 
 export const GET_CORPUSES = "GET_CORPUSES"
+export const CREATE_CORPUS = "CREATE_CORPUS"
 export const GET_CORPUS = "GET_CORPUS"
 export const UPDATE_CORPUS = "UPDATE_CORPUS"
 export const GET_CORPUS_RESOURCES = "GET_CORPUS_RESOURCES"
@@ -20,6 +22,7 @@ export const GET_CORPUS_CLASSES = "GET_CORPUS_CLASSES"
 export const GET_AUTHORS = "GET_AUTHORS"
 export const GET_AUTHOR = "GET_AUTHOR"
 export const UPDATE_AUTHOR = "UPDATE_AUTHOR"
+export const CREATE_AUTHOR = "CREATE_AUTHOR"
 
 
 export const CREATE_WINDOW = "CREATE_WINDOW"
@@ -27,16 +30,25 @@ export const CREATE_WINDOW = "CREATE_WINDOW"
 export const GET_PLACE = "GET_PLACE"
 export const GET_PLACES = "GET_PLACES"
 export const UPDATE_PLACE = "UPDATE_PLACE"
+export const CREATE_PLACE = "CREATE_PLACE"
 
 
 export const GET_CLASS = "GET_CLASS"
 export const GET_CLASSES = "GET_CLASSES"
 export const UPDATE_CLASS = "UPDATE_CLASS"
+export const CREATE_CLASS = "CREATE_CLASS"
 
 
 export const GET_OBJECT = "GET_OBJECT"
 export const GET_OBJECTS = "GET_OBJECTS"
 export const UPDATE_OBJECT = "UPDATE_OBJECT"
+export const CREATE_OBJECT = "CREATE_OBJECT"
+
+export const GET_MARKUPS_TEXT = "GET_MARKUPS_TEXT"
+export const GET_MARKUP_ENTITES = "GET_MARKUP_ENTITES"
+export const CREATE_MARKUP = "CREATE_MARKUP"
+
+
 
 
 export const ADD_ENTITY = "ADD_ENTITY"
@@ -55,6 +67,7 @@ export const REGISTER_FAIL = 'REGISTER_FAIL';
 
 export const CREATE_MESSAGE = 'CREATE_MESSAGE';
 export const GET_ERRORS = 'GET_ERRORS';
+
 
 
 

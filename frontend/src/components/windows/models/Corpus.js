@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react'
-import axios from 'axios';
 import ModelPanel from './ModelPanel';
 
 import { getCorpuses, getCorpus, updateCorpus } from '../../../actions/corpuses';
@@ -14,11 +13,11 @@ export class Corpus extends Component {
     }
 
     state = {
-        name: '',
-        language: '',
-        dialect: '',
-        extras: '',
-        parent: ''
+        name: 'Не указано',
+        language: 'Не указано',
+        dialect: 'Не указано',
+        extras: 'Не указано',
+        parent: null
     }
 
     static propTypes = {

@@ -1,4 +1,4 @@
-import { GET_PLACES, GET_PLACE, UPDATE_OBJECT } from "../actions/types.js";
+import { GET_PLACES, GET_PLACE, UPDATE_OBJECT, CREATE_PLACE } from "../actions/types.js";
 
 const initialState = {
     all: [],
@@ -23,6 +23,11 @@ export default function (state = initialState, action) {
                 all: [...state.all, action.payload],
                 selected: action.payload
             };
+        case CREATE_PLACE:
+            return {
+                ...state,
+                all: [...state.all, action.payload]
+            }
         default:
             return state;
     }

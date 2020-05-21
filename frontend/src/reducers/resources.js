@@ -1,4 +1,4 @@
-import { GET_RESOURCES, GET_RESOURCE, GET_RESOURCE_TYPES, GET_RESOURCE_WORKSPACE, UPDATE_RESOURCE } from "../actions/types.js";
+import { GET_RESOURCES, GET_RESOURCE, GET_RESOURCE_TYPES, GET_RESOURCE_WORKSPACE, UPDATE_RESOURCE, CREATE_RESOURCE_TYPE } from "../actions/types.js";
 
 const initialState = {
     all: [],
@@ -35,6 +35,11 @@ export default function (state = initialState, action) {
                 all: [...state.all, action.payload],
                 selected: action.payload
             };
+        case CREATE_RESOURCE_TYPE:
+            return {
+                ...state,
+                types: [...state.types, action.payload]
+            }
         default:
             return state;
     }

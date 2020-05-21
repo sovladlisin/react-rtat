@@ -1,4 +1,4 @@
-import { GET_CLASS, GET_CLASSES, UPDATE_CLASS } from "../actions/types.js";
+import { GET_CLASS, GET_CLASSES, UPDATE_CLASS, CREATE_CLASS } from "../actions/types.js";
 
 const initialState = {
     all: [],
@@ -22,6 +22,11 @@ export default function (state = initialState, action) {
                 ...state,
                 all: [...state.all, action.payload],
                 selected: action.payload
+            };
+        case CREATE_CLASS:
+            return {
+                ...state,
+                all: [...state.all, action.payload],
             };
         default:
             return state;

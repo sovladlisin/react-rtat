@@ -1,10 +1,11 @@
 from django.db.models import Q
-from backend.models import Class, Object, Test, Corpus, Resource, ResourceType, Author, TextToText, Place, CorpusPlaces, CorpusAuthors, TextToText, Entity
+from backend.models import Markup, Class, Object, Test, Corpus, Resource, ResourceType, Author, TextToText, Place, CorpusPlaces, CorpusAuthors, TextToText, Entity
 from rest_framework import viewsets, permissions
-from .serializers import ObjectSerializer, ClassSerializer, TestSerializer, CorpusSerializer, ResourceSerializer, ResourceTypeSerializer, AuthorSerializer, TextToTextSerializer, PlaceSerializer, CorpusPlacesSerializer, CorpusAuthorsSerializer, EntitySerializer
+from .serializers import MarkupSerializer, ObjectSerializer, ClassSerializer, TestSerializer, CorpusSerializer, ResourceSerializer, ResourceTypeSerializer, AuthorSerializer, TextToTextSerializer, PlaceSerializer, CorpusPlacesSerializer, CorpusAuthorsSerializer, EntitySerializer
 
 
-perm = permissions.IsAuthenticated
+# perm = permissions.IsAuthenticated
+perm = permissions.AllowAny
 
 
 class ClassViewSet(viewsets.ModelViewSet):
@@ -115,3 +116,12 @@ class TextToTextViewSet(viewsets.ModelViewSet):
     ]
 
     serializer_class = TextToTextSerializer
+
+
+class MarkupViewSet(viewsets.ModelViewSet):
+    queryset = Markup.objects.all()
+    permission_classes = [
+        perm
+    ]
+
+    serializer_class = MarkupSerializer

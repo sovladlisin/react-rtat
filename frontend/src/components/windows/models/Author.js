@@ -41,7 +41,6 @@ export class Author extends Component {
     }
 
     save = () => {
-        console.log(this.state)
         const author = this.state
         this.props.updateAuthor(this.props.pk, author)
     }
@@ -97,7 +96,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
     selected: state.authors.selected,
-    places: state.places.all
+    places: state.places.all,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Author);

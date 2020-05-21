@@ -32,13 +32,9 @@ export class CorpusInfo extends Component {
 
 
     render() {
-        const column_style = {
-            width: '420px'
-        }
-
         return (
             <Fragment>
-                <div className="column" style={column_style}>
+                <div className="column">
                     <div className="spacer">Метаданные:</div>
                     <div className="corpus-info">
                         <label>Название</label><p>{this.props.selected['name']}</p>

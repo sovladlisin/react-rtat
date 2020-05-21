@@ -1,4 +1,4 @@
-import { GET_AUTHORS, GET_AUTHOR, UPDATE_AUTHOR } from "../actions/types.js";
+import { GET_AUTHORS, GET_AUTHOR, UPDATE_AUTHOR, CREATE_AUTHOR } from "../actions/types.js";
 
 const initialState = {
     all: [],
@@ -22,6 +22,11 @@ export default function (state = initialState, action) {
                 ...state,
                 all: [...state.all, action.payload],
                 selected: action.payload
+            };
+        case CREATE_AUTHOR:
+            return {
+                ...state,
+                all: [...state.all, action.payload],
             };
         default:
             return state;

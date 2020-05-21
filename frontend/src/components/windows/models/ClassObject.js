@@ -55,7 +55,7 @@ export class ClassObject extends Component {
                 position_start: parseInt(item.position),
                 position_end: parseInt(item.position),
                 obj: parseInt(this.props.pk),
-                origin_text: parseInt(item.text_id)
+                markup: parseInt(item.markup)
             }
             this.props.addEntity(new_entitiy)
         })
@@ -112,14 +112,14 @@ export class ClassObject extends Component {
     addLine = (e, cat) => {
         e.preventDefault()
         const position = e.dataTransfer.getData("position")
-        const text_id = e.dataTransfer.getData("text")
+        const markup_id = e.dataTransfer.getData("markup")
         var new_lines = this.state.new_lines
 
-        const duplicates = new_lines.filter(item => item.position == position & item.text_id == text_id)
+        const duplicates = new_lines.filter(item => item.position == position & item.markup == markup_id)
         const duplicates_props = this.props.entities.filter(item => item.position_start == position)
 
         if (duplicates.length == 0 & duplicates_props == 0) {
-            new_lines.push({ position: position, text_id: text_id })
+            new_lines.push({ position: position, markup: markup_id })
             this.setState({
                 new_lines: new_lines
             })

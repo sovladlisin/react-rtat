@@ -4,7 +4,7 @@ import Pin from '../pins/Pin'
 
 import { getResourceWorkspace } from '../../actions/resources';
 import { getCorpusClasses, getCorpusObjects } from '../../actions/corpuses';
-import { getEntitiesFromText } from '../../actions/objects';
+import { getMarkupsFromText, getMarkupEntites, createMarkup } from '../../actions/objects';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -20,16 +20,22 @@ export class Editor extends Component {
         page_number: 1,
         page_size: 10,
         created_entities: {},
-        sidebar_visibility: false
+        sidebar_visibility: false,
+        selected_markup: null,
+        create_markup_window: false,
+        new_markup_name: "Не указано"
     }
     static propTypes = {
         texts: PropTypes.object.isRequired,
         entities: PropTypes.array.isRequired,
         classes: PropTypes.array.isRequired,
         objects: PropTypes.array.isRequired,
+        markups: PropTypes.array.isRequired,
         getResourceWorkspace: PropTypes.func.isRequired,
         getCorpusClasses: PropTypes.func.isRequired,
         getCorpusObjects: PropTypes.func.isRequired,
+        getMarkupEntites: PropTypes.func.isRequired,
+        createMarkup: PropTypes.func.isRequired
     };
 
     range = (start, end) => {
@@ -57,8 +63,10 @@ export class Editor extends Component {
                         })
                 })
             this.props.getCorpusObjects(original.corpus)
-            this.props.getEntitiesFromText(original.id)
+            this.props.getMarkupsFromText(original.id)
         }
+
+
     }
 
     componentDidMount() {
@@ -185,6 +193,11 @@ export class Editor extends Component {
 
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        return true
+
+    }
+
     renderObjects = () => {
         const ids = this.props.entities.map(item => item.obj)
         return this.props.objects.filter(item => ids.includes(item.id)).map(item => {
@@ -231,7 +244,65 @@ export class Editor extends Component {
 
     transferLine = (e, position) => {
         e.dataTransfer.setData('position', position)
-        e.dataTransfer.setData('text', this.props.texts.original.id)
+        e.dataTransfer.setData('markup', this.state.selected_markup)
+    }
+
+    changeMarkup = (id) => {
+        this.props.getMarkupEntites(id)
+        this.setState({ selected_markup: id })
+
+    }
+
+    renderMarkupList = () => {
+        if (this.props.markups.length != 0) {
+            const style_normal = {
+                background: "white",
+                color: "black"
+            }
+
+            const style_selected = {
+                background: "black",
+                color: "white"
+            }
+
+            const markups = this.props.markups
+            return markups.map(markup => {
+                const current_style = this.state.selected_markup == markup.id ? style_selected : style_normal
+                return (
+                    <button style={current_style} onClick={() => { this.changeMarkup(markup.id) }}>Разметка {markup.name}</button>
+                )
+            })
+        }
+    }
+
+    toogleNewMarkupWindow = () => {
+        this.setState({ create_markup_window: !this.state.create_markup_window })
+    }
+
+    renderNewMarkupWindow = () => {
+        if (this.state.create_markup_window) {
+            return (
+                <Fragment>
+                    <div className="new-markup">
+                        <p>Введите название новой разметки:</p>
+                        <input name="new_markup_name" value={this.state.new_markup_name} onChange={this.onChange}></input>
+                        <button onClick={this.createNewMarkup}>Создать</button>
+                        <button onClick={this.toogleNewMarkupWindow}>Скрыть</button>
+                    </div>
+                </Fragment>
+            )
+        }
+        return null
+    }
+
+    createNewMarkup = () => {
+        const obj = { name: this.state.new_markup_name, text: this.props.texts.original.id }
+        this.props.createMarkup(obj)
+        this.setState({ new_markup_name: "Не указано", create_markup_window: !this.state.create_markup_window })
+    }
+
+    onChange = (e) => {
+        this.setState({ [e.target.name]: e.target.value })
     }
 
     render() {
@@ -244,6 +315,14 @@ export class Editor extends Component {
                 <div className="text-info">
                     {this.renderInfo()}
                 </div>
+                <div className="markup-list">
+                    <p>Разметки в тексте:</p>
+                    <div className="markups">
+                        {this.renderMarkupList()}
+                    </div>
+                    <button onClick={this.toogleNewMarkupWindow}>Создать новую разметку</button>
+                </div>
+                {this.renderNewMarkupWindow()}
                 <div className="editor-panel">
                     <div className="text-panel">
                         <div className="text-navbar">
@@ -294,14 +373,17 @@ const mapDispatchToProps = {
     getResourceWorkspace,
     getCorpusClasses,
     getCorpusObjects,
-    getEntitiesFromText
+    getMarkupsFromText,
+    getMarkupEntites,
+    createMarkup
 };
 
 const mapStateToProps = state => ({
     texts: state.resources.workspace_texts,
     entities: state.objects.entities_text,
     objects: state.corpuses.objects,
-    classes: state.corpuses.classes
+    classes: state.corpuses.classes,
+    markups: state.objects.markups
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Editor);

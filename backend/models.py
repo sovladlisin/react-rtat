@@ -40,7 +40,7 @@ class Author(models.Model):
     date_of_birth = models.CharField(max_length=300, default="Не указано")
     date_of_death = models.CharField(max_length=300, default="Не указано")
     place_of_birth = models.ForeignKey(
-        Place, blank=True, null=True, related_name='_place_of_birth', on_delete=models.PROTECT)
+        Place, blank=True, null=True, related_name='place_of_birth', on_delete=models.PROTECT)
     picture = models.CharField(max_length=300, default="Не указано")
 
     def __str__(self):
@@ -159,14 +159,23 @@ class Object(models.Model):
         return self.name
 
 
+class Markup(models.Model):
+    name = models.CharField(max_length=100, default="Не указано")
+    text = models.ForeignKey(
+        Resource, blank=True, null=True, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return self.name
+
+
 class Entity(models.Model):
     obj = models.ForeignKey(
         Object, blank=True, null=True, related_name='object', on_delete=models.CASCADE)
 
     position_start = models.IntegerField(default=0)
     position_end = models.IntegerField(default=0)
-    origin_text = models.ForeignKey(
-        Resource, blank=True, null=True, related_name='origin_text', on_delete=models.CASCADE)
+    markup = models.ForeignKey(
+        Markup, blank=True, null=True, related_name='markup', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.position_start.__str__() + self.position_end + self.origin_text.name
+        return self.position_start.__str__() + self.position_end + self.markup.name

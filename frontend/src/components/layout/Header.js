@@ -26,6 +26,7 @@ export class Header extends Component {
         const authLinks = (
             <Fragment>
                 <div><button onClick={() => { this.props.handler('Account') }}>{user ? 'Личный кабинет: ' + user.username : null}</button></div>
+                <div><Link to="/ontology"><p>Модели</p></Link></div>
             </Fragment>
         )
         return (
@@ -33,6 +34,7 @@ export class Header extends Component {
                 <div><Link to="/"><p>Главная</p></Link></div>
                 <div><button onClick={() => { this.props.handler('Library') }}><p>Библиотека ресурсов</p></button></div>
                 {isAuthenticated ? authLinks : guestLinks}
+
 
                 {/* <div><Link to="/"><p>Главная</p></Link></div>
                 <div><Link to="/resources"><p>Библиотека ресурсов</p></Link></div>

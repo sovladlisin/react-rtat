@@ -1,5 +1,5 @@
 from rest_framework import routers
-from .api import ClassViewSet, ObjectViewSet, TestViewSet, CorpusViewSet, ResourceViewSet, ResourceTypeViewSet, AuthorViewSet, TextToTextViewSet, PlaceViewSet, CorpusPlacesViewSet, CorpusAuthorsViewSet, EntityViewSet
+from .api import MarkupViewSet, ClassViewSet, ObjectViewSet, TestViewSet, CorpusViewSet, ResourceViewSet, ResourceTypeViewSet, AuthorViewSet, TextToTextViewSet, PlaceViewSet, CorpusPlacesViewSet, CorpusAuthorsViewSet, EntityViewSet
 from .views import LoadCheck
 from django.urls import path
 
@@ -16,6 +16,7 @@ router.register('api/corpusAuthors', CorpusAuthorsViewSet, 'corpusAuthors')
 router.register('api/entity', EntityViewSet, 'entity')
 router.register('api/class', ClassViewSet, 'class')
 router.register('api/object', ObjectViewSet, 'object')
+router.register('api/markup', MarkupViewSet, 'markup')
 
 urlpatterns = [path('loaderio-dad475efde7ab1a335f97bc6bf875046/',
                     LoadCheck, name='loadcheck')] + router.urls

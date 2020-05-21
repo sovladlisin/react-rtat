@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { GET_CORPUSES, GET_CORPUS, GET_CORPUS_RESOURCES, GET_CORPUS_AUTHORS, GET_CORPUS_PLACES, GET_CORPUS_CLASSES, GET_CORPUS_OBJECTS, UPDATE_CORPUS } from './types';
+import { GET_CORPUSES, GET_CORPUS, GET_CORPUS_RESOURCES, GET_CORPUS_AUTHORS, GET_CORPUS_PLACES, GET_CORPUS_CLASSES, GET_CORPUS_OBJECTS, UPDATE_CORPUS, CREATE_CORPUS } from './types';
 import { tokenConfig } from './auth'
 
 
@@ -124,5 +124,16 @@ export const getCorpusObjects = id => (dispatch, getState) => {
                 payload: objects
             });
         }).catch(err => console.log(err));
+    }).catch(err => console.log(err));
+}
+
+//CREATE AUTHOR
+export const createCorpus = obj => (dispatch, getState) => {
+    const body = JSON.stringify(obj)
+    axios.post(`/api/corpus/`, body, tokenConfig(getState)).then(res => {
+        dispatch({
+            type: CREATE_CORPUS,
+            payload: res.data
+        });
     }).catch(err => console.log(err));
 }

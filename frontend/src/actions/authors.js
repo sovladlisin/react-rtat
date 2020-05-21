@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { GET_AUTHORS, GET_AUTHOR, UPDATE_AUTHOR } from './types';
+import { GET_AUTHORS, GET_AUTHOR, UPDATE_AUTHOR, CREATE_AUTHOR } from './types';
 import { tokenConfig } from './auth'
 //GET AUTHORs
 export const getAuthors = () => (dispatch, getState) => {
@@ -30,6 +30,17 @@ export const updateAuthor = (id, obj) => (dispatch, getState) => {
     axios.put(`/api/author/${id}/`, body, tokenConfig(getState)).then(res => {
         dispatch({
             type: UPDATE_AUTHOR,
+            payload: res.data
+        });
+    }).catch(err => console.log(err));
+}
+
+//CREATE AUTHOR
+export const createAuthor = obj => (dispatch, getState) => {
+    const body = JSON.stringify(obj)
+    axios.post(`/api/author/`, body, tokenConfig(getState)).then(res => {
+        dispatch({
+            type: CREATE_AUTHOR,
             payload: res.data
         });
     }).catch(err => console.log(err));

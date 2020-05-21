@@ -14,8 +14,8 @@ export class Place extends Component {
     };
 
     state = {
-        name: '',
-        location: ''
+        name: 'Не указано',
+        location: 'Не указано'
     }
 
     shouldComponentUpdate(nextProps, nextState) {

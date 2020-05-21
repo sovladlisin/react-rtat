@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from backend.models import Class, Object, Test, Corpus, Resource, ResourceType, Author, TextToText, Place, CorpusPlaces, CorpusAuthors, TextToText, Entity
+from backend.models import Markup, Class, Object, Test, Corpus, Resource, ResourceType, Author, TextToText, Place, CorpusPlaces, CorpusAuthors, TextToText, Entity
 
 
 class ObjectSerializer(serializers.ModelSerializer):
@@ -60,6 +60,13 @@ class ResourceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Resource
+        fields = '__all__'
+
+
+class MarkupSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Markup
         fields = '__all__'
 
 

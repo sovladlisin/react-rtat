@@ -1,10 +1,11 @@
-import { GET_OBJECT, GET_OBJECTS, GET_ENTITIES_TEXT, GET_ENTITIES_OBJECT, ADD_ENTITY, DELETE_ENTITY, UPDATE_OBJECT } from "../actions/types.js";
+import { GET_MARKUP_ENTITES, GET_OBJECT, GET_OBJECTS, GET_ENTITIES_TEXT, GET_ENTITIES_OBJECT, ADD_ENTITY, DELETE_ENTITY, UPDATE_OBJECT, CREATE_OBJECT, GET_MARKUPS_TEXT, CREATE_MARKUP } from "../actions/types.js";
 
 const initialState = {
     all: [],
     selected: {},
     entities_text: [],
-    entities_object: []
+    entities_object: [],
+    markups: []
 }
 
 export default function (state = initialState, action) {
@@ -19,7 +20,7 @@ export default function (state = initialState, action) {
                 ...state,
                 selected: action.payload
             };
-        case GET_ENTITIES_TEXT:
+        case GET_MARKUP_ENTITES:
             return {
                 ...state,
                 entities_text: action.payload
@@ -48,6 +49,21 @@ export default function (state = initialState, action) {
                 all: [...state.all, action.payload],
                 selected: action.payload
             };
+        case CREATE_OBJECT:
+            return {
+                ...state,
+                all: [...state.all, action.payload]
+            }
+        case GET_MARKUPS_TEXT:
+            return {
+                ...state,
+                markups: action.payload
+            }
+        case CREATE_MARKUP:
+            return {
+                ...state,
+                markups: [...state.markups, action.payload]
+            }
         default:
             return state;
     }
