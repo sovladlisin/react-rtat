@@ -5,7 +5,7 @@ from .serializers import MarkupSerializer, ObjectSerializer, ClassSerializer, Te
 
 
 # perm = permissions.IsAuthenticated
-perm = permissions.AllowAny
+perm = permissions.IsAuthenticated
 
 
 class ClassViewSet(viewsets.ModelViewSet):
