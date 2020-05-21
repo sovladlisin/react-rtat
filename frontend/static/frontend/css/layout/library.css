@@ -18,6 +18,7 @@
     float:left;
     height: 300px;
     overflow: auto;
+    max-width: 600px;
     padding: 0px 15px;
     border-right: 1px solid grey;
     border-image: 

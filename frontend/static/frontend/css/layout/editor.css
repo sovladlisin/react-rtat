@@ -276,10 +276,11 @@ form.main-form input, form.main-form select {
     display: grid;
     grid-template-columns: auto;
     overflow: auto;
-    height: fit-content;
+    height: max-content;
 }
 .content-search {
     margin: 5px;
+    height: 50px;
 }
 
 .content-search input[type="text"] {
