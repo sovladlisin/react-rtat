@@ -4,7 +4,7 @@ import ModelPanel from './ModelPanel';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getResource, getResourceTypes, updateResource } from '../../../actions/resources';
+import { getResource, getResourceTypes, updateResource, deleteResource } from '../../../actions/resources';
 import { getAuthors } from '../../../actions/authors';
 import { getCorpuses } from '../../../actions/corpuses';
 
@@ -22,7 +22,8 @@ export class Resource extends Component {
         types: PropTypes.array.isRequired,
         authors: PropTypes.array.isRequired,
         getResourceTypes: PropTypes.func.isRequired,
-        getResource: PropTypes.func.isRequired
+        getResource: PropTypes.func.isRequired,
+        deleteResource: PropTypes.func.isRequired
     };
 
     state = {
@@ -187,10 +188,20 @@ export class Resource extends Component {
         return null;
     }
 
+    delete = () => {
+        this.props.deleteResource(this.props.pk)
+    }
+
     render() {
         return (
             <Fragment>
-                <ModelPanel save={this.save} model_name='resource' pk={this.props.pk} />
+                <ModelPanel
+                    save={this.save}
+                    delete={this.delete}
+                    model_name='resource'
+                    pk={this.props.pk}
+                    window_id={this.props.window_id}
+                    closeWindow={this.props.closeWindow} />
                 <div>
                     <form action="">
                         {this.renderForm()}
@@ -209,7 +220,8 @@ const mapDispatchToProps = {
     getResourceTypes,
     getAuthors,
     getCorpuses,
-    updateResource
+    updateResource,
+    deleteResource
 };
 
 const mapStateToProps = state => ({

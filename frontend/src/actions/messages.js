@@ -9,9 +9,10 @@ export const createMessage = (msg) => {
 };
 
 // RETURN ERRORS
-export const returnErrors = (msg, status) => {
+export const returnErrors = (msg, status, custom_message) => {
     return {
         type: GET_ERRORS,
-        payload: { msg, status },
+        payload: { msg, status, custom_message },
     };
+
 };

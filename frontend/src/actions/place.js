@@ -1,7 +1,11 @@
 import axios from 'axios';
 
-import { GET_PLACES, GET_PLACE, UPDATE_PLACE, CREATE_PLACE } from './types';
+import { GET_PLACES, GET_PLACE, UPDATE_PLACE, CREATE_PLACE, DELETE_PLACE } from './types';
+import { returnErrors, createMessage } from './messages';
 import { tokenConfig } from './auth'
+
+const action_name = "Место"
+
 
 //GET PLACES
 export const getPlaces = () => (dispatch, getState) => {
@@ -10,7 +14,10 @@ export const getPlaces = () => (dispatch, getState) => {
             type: GET_PLACES,
             payload: res.data
         });
-    }).catch(err => console.log(err));
+    }).catch((err) => {
+        dispatch(returnErrors(err.response.data, err.response.status, action_name));
+
+    });
 }
 
 //GET PLACE
@@ -21,7 +28,10 @@ export const getPlace = id => (dispatch, getState) => {
             type: GET_PLACE,
             payload: res.data
         });
-    }).catch(err => console.log(err));
+    }).catch((err) => {
+        dispatch(returnErrors(err.response.data, err.response.status, action_name));
+
+    });
 }
 
 //UPDATE PLACE
@@ -33,7 +43,10 @@ export const updatePlace = (id, obj) => (dispatch, getState) => {
             type: UPDATE_PLACE,
             payload: res.data
         });
-    }).catch(err => console.log(err));
+    }).catch((err) => {
+        dispatch(returnErrors(err.response.data, err.response.status, action_name));
+
+    });
 }
 
 //CREATE PLACE
@@ -44,5 +57,22 @@ export const createPlace = obj => (dispatch, getState) => {
             type: CREATE_PLACE,
             payload: res.data
         });
-    }).catch(err => console.log(err));
+    }).catch((err) => {
+        dispatch(returnErrors(err.response.data, err.response.status, action_name));
+
+    });
 }
+
+//DELETE PLACE
+export const deletePlace = (id) => (dispatch, getState) => {
+    axios
+        .delete(`/api/place/${id}/`, tokenConfig(getState))
+        .then((res) => {
+            dispatch(createMessage({ deleteSuccess: action_name + " #" + id }));
+            dispatch({
+                type: DELETE_PLACE,
+                payload: id,
+            });
+        })
+        .catch((err) => console.log(err));
+};

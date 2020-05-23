@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import ModelPanel from './ModelPanel';
 
-import { getClass, getClasses, updateClass } from '../../../actions/classes';
+import { getClass, getClasses, updateClass, deleteClass } from '../../../actions/classes';
 import { getCorpuses } from '../../../actions/corpuses';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -18,7 +18,8 @@ export class Class extends Component {
         corpuses: PropTypes.array.isRequired,
         getClass: PropTypes.func.isRequired,
         getClasses: PropTypes.func.isRequired,
-        getCorpuses: PropTypes.func.isRequired
+        getCorpuses: PropTypes.func.isRequired,
+        deleteClass: PropTypes.func.isRequired
     };
 
     state = {
@@ -80,10 +81,20 @@ export class Class extends Component {
         return null;
     }
 
+    delete = () => {
+        this.props.deleteClass(this.props.pk)
+    }
+
     render() {
         return (
             <Fragment>
-                <ModelPanel save={this.save} model_name='class' pk={this.props.pk} />
+                <ModelPanel
+                    save={this.save}
+                    delete={this.delete}
+                    model_name='class'
+                    pk={this.props.pk}
+                    window_id={this.props.window_id}
+                    closeWindow={this.props.closeWindow} />
                 <form action="">
                     {this.renderForm()}
                 </form>
@@ -97,7 +108,8 @@ const mapDispatchToProps = {
     getClass,
     getClasses,
     getCorpuses,
-    updateClass
+    updateClass,
+    deleteClass
 };
 
 const mapStateToProps = state => ({

@@ -31,11 +31,13 @@ class LoginAPI(generics.GenericAPIView):
         serializer.is_valid(raise_exception=False)
         user = serializer.validated_data
         token = AuthToken.objects.create(user)[1] if user.is_active else None
+
         return Response({
             "user": UserSerializer(user, context=self.get_serializer_context()).data,
             "token": token,
             "active": user.is_active
         })
+
 
 # Get User API
 

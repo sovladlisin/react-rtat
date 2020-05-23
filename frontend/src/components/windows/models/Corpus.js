@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import ModelPanel from './ModelPanel';
 
-import { getCorpuses, getCorpus, updateCorpus } from '../../../actions/corpuses';
+import { getCorpuses, getCorpus, updateCorpus, deleteCorpus } from '../../../actions/corpuses';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -24,7 +24,8 @@ export class Corpus extends Component {
         selected: PropTypes.object.isRequired,
         corpuses: PropTypes.array.isRequired,
         getCorpus: PropTypes.func.isRequired,
-        getCorpuses: PropTypes.func.isRequired
+        getCorpuses: PropTypes.func.isRequired,
+        deleteCorpus: PropTypes.func.isRequired
     };
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -77,10 +78,15 @@ export class Corpus extends Component {
         return null;
     }
 
+    delete = () => {
+        this.props.deleteCorpus(this.props.pk)
+    }
+
     render() {
         return (
             <Fragment>
-                <ModelPanel save={this.save} model_name='corpus' pk={this.props.pk} />
+                <ModelPanel save={this.save} delete={this.delete} model_name='corpus' pk={this.props.pk} window_id={this.props.window_id} closeWindow={this.props.closeWindow} />
+
                 <form action="">
                     {this.renderForm()}
                 </form>
@@ -93,7 +99,8 @@ export class Corpus extends Component {
 const mapDispatchToProps = {
     getCorpus,
     getCorpuses,
-    updateCorpus
+    updateCorpus,
+    deleteCorpus
 };
 
 const mapStateToProps = state => ({

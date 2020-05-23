@@ -50,11 +50,12 @@ export class PlaceForm extends Component {
                 <div className="content-all">
                     <div className="content-search">
                         <input placeholder="Поиск: " name="searchbar" type="text" onChange={this.onChange}></input>
-                        <button onClick={this.search}><i class="fas fa-search"></i></button>
+                        <button onClick={this.search}><i className="fas fa-search"></i></button>
                     </div>
                     {this.props.places.map(item => {
                         return (
                             <Pin
+                                key={item.id}
                                 model_name={'place'}
                                 pk={item.id}
                                 createWindow={this.props.createWindow}

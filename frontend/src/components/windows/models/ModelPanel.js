@@ -19,6 +19,7 @@ export class ModelPanel extends Component {
             <Fragment>
                 <div className="model-panel">
                     <button onClick={() => { this.props.save(); this.animate() }}><i className="far fa-save"></i></button>
+                    <button onClick={() => { this.props.delete(); this.props.closeWindow(this.props.window_id) }}><i className="far fa-trash-alt"></i></button>
                     {
                         this.props.model_name === 'resource' ? (
                             <Link

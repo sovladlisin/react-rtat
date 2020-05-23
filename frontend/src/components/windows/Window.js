@@ -44,22 +44,22 @@ export class Window extends Component {
     fill() {
         switch (this.props.model_name) {
             case 'resource':
-                return <Resource pk={this.props.pk} />
+                return <Resource pk={this.props.pk} window_id={this.props.id} closeWindow={this.props.closeWindow} />
 
             case 'corpus':
-                return <Corpus pk={this.props.pk} />
+                return <Corpus pk={this.props.pk} window_id={this.props.id} closeWindow={this.props.closeWindow} />
 
             case 'place':
-                return <Place pk={this.props.pk} />
+                return <Place pk={this.props.pk} window_id={this.props.id} closeWindow={this.props.closeWindow} />
 
             case 'author':
-                return <Author pk={this.props.pk} />
+                return <Author pk={this.props.pk} window_id={this.props.id} closeWindow={this.props.closeWindow} />
 
             case 'object':
-                return <ClassObject pk={this.props.pk} />
+                return <ClassObject pk={this.props.pk} window_id={this.props.id} closeWindow={this.props.closeWindow} />
 
             case 'class':
-                return <Class pk={this.props.pk} />
+                return <Class pk={this.props.pk} window_id={this.props.id} closeWindow={this.props.closeWindow} />
 
             default:
                 return "Empty window"

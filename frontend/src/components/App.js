@@ -7,6 +7,8 @@ import Container from './windows/Container'
 import Login from './accounts/Login'
 import Register from './accounts/Register'
 
+import { Provider as AlertProvider } from 'react-alert';
+import AlertTemplate from 'react-alert-template-basic';
 import { Provider } from 'react-redux';
 import store from '../store';
 
@@ -19,6 +21,15 @@ import { loadUser } from '../actions/auth'
 import Account from './layout/Account';
 import LoadCheck from './test/LoadCheck';
 import Ontology from './ontology/Ontology';
+import Alerts from './layout/Alerts';
+import CustomAlert from './layout/CustomAlert';
+
+// Alert Options
+const alertOptions = {
+    timeout: 3000,
+    position: 'bottom center',
+};
+
 
 class App extends Component {
 
@@ -62,29 +73,32 @@ class App extends Component {
     render() {
         return (
             <Provider store={store}>
-                <Router>
-                    <Fragment>
-                        <Header handler={this.handler} />
-                        <Container ref="container" />
+                <AlertProvider template={CustomAlert} {...alertOptions}>
+                    <Router>
+                        <Fragment>
+                            <Header handler={this.handler} />
+                            <Alerts />
+                            <Container ref="container" />
 
-                        {this.state.library ? (<Library createWindow={this.createWindow} />) : null}
-                        {this.state.account ? (<Account handler={this.handler} />) : null}
-                        <Switch>
-                            <Route exact path="/" component={Info} />
-                            <Route exact path="/login" component={Login} />
-                            <Route exact path="/register" component={Register} />
-                            <Route
-                                exact path="/ontology"
-                                render={(props) => <Ontology {...props} createWindow={this.createWindow} />} />
-                            <Route exact path="/loaderio-dad475efde7ab1a335f97bc6bf875046" component={LoadCheck} />
-                            <PrivateRoute exact path="/account" component={Account} />
-                            <Route
-                                exact path="/editor/text/:pk"
-                                render={(props) => <Editor {...props} createWindow={this.createWindow} />} />
-                        </Switch>
+                            {this.state.library ? (<Library createWindow={this.createWindow} />) : null}
+                            {this.state.account ? (<Account handler={this.handler} />) : null}
+                            <Switch>
+                                <Route exact path="/" component={Info} />
+                                <Route exact path="/login" component={Login} />
+                                <Route exact path="/register" component={Register} />
+                                <Route
+                                    exact path="/ontology"
+                                    render={(props) => <Ontology {...props} createWindow={this.createWindow} />} />
+                                <Route exact path="/loaderio-dad475efde7ab1a335f97bc6bf875046" component={LoadCheck} />
+                                <PrivateRoute exact path="/account" component={Account} />
+                                <Route
+                                    exact path="/editor/text/:pk"
+                                    render={(props) => <Editor {...props} createWindow={this.createWindow} />} />
+                            </Switch>
 
-                    </Fragment>
-                </Router>
+                        </Fragment>
+                    </Router>
+                </AlertProvider>
             </Provider>
         )
     }

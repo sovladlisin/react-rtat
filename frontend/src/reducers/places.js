@@ -1,4 +1,4 @@
-import { GET_PLACES, GET_PLACE, UPDATE_OBJECT, CREATE_PLACE } from "../actions/types.js";
+import { GET_PLACES, GET_PLACE, UPDATE_OBJECT, CREATE_PLACE, DELETE_PLACE } from "../actions/types.js";
 
 const initialState = {
     all: [],
@@ -28,6 +28,11 @@ export default function (state = initialState, action) {
                 ...state,
                 all: [...state.all, action.payload]
             }
+        case DELETE_PLACE:
+            return {
+                ...state,
+                all: state.all.filter((item) => item.id !== action.payload),
+            };
         default:
             return state;
     }

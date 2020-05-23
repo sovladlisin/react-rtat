@@ -12,7 +12,7 @@ export class ObjectForm extends Component {
 
     state = {
         name: 'Не указано',
-        parent_class: null
+        parent_class: undefined
     }
 
     static propTypes = {

@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import ModelPanel from './ModelPanel';
 
 import { getClasses } from '../../../actions/classes';
-import { getObject, addEntity, getEntitiesFromObject, deleteEntity, updateObject } from '../../../actions/objects';
+import { getObject, addEntity, getEntitiesFromObject, deleteEntity, updateObject, deleteObject } from '../../../actions/objects';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom'
@@ -25,7 +25,8 @@ export class ClassObject extends Component {
         classes: PropTypes.array.isRequired,
         entities: PropTypes.array.isRequired,
         getClasses: PropTypes.func.isRequired,
-        getObject: PropTypes.func.isRequired
+        getObject: PropTypes.func.isRequired,
+        deleteObject: PropTypes.func.isRequired
     };
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -126,6 +127,10 @@ export class ClassObject extends Component {
         }
     }
 
+    delete = () => {
+        this.props.deleteObject(this.props.pk)
+    }
+
 
     render() {
         const delete_style = {
@@ -133,7 +138,8 @@ export class ClassObject extends Component {
         }
         return (
             <Fragment>
-                <ModelPanel save={this.save} model_name='object' pk={this.props.pk} />
+                <ModelPanel save={this.save} delete={this.delete} model_name='object' pk={this.props.pk} window_id={this.props.window_id} closeWindow={this.props.closeWindow} />
+
                 <form action="">
                     {this.renderForm()}
                 </form>
@@ -166,12 +172,14 @@ export class ClassObject extends Component {
                         </Fragment>
                     )
                 })}
-                <p>Добавить строку: <div
-                    class="lines"
-                    onDragOver={(e) => this.addingLine(e)}
-                    onDrop={(e) => this.addLine(e, "complete")}
-                > Перетащите строку в данное поле
-                </div></p>
+                <p>Добавить строку:
+                    <div
+                        class="lines"
+                        onDragOver={(e) => this.addingLine(e)}
+                        onDrop={(e) => this.addLine(e, "complete")}>
+                        Перетащите строку в данное поле
+                    </div>
+                </p>
 
             </Fragment>
 
@@ -185,7 +193,8 @@ const mapDispatchToProps = {
     addEntity,
     getEntitiesFromObject,
     deleteEntity,
-    updateObject
+    updateObject,
+    deleteObject
 };
 
 const mapStateToProps = state => ({

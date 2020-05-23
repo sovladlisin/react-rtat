@@ -1,4 +1,4 @@
-import { GET_RESOURCES, GET_RESOURCE, GET_RESOURCE_TYPES, GET_RESOURCE_WORKSPACE, UPDATE_RESOURCE, CREATE_RESOURCE_TYPE } from "../actions/types.js";
+import { GET_RESOURCES, GET_RESOURCE, GET_RESOURCE_TYPES, GET_RESOURCE_WORKSPACE, UPDATE_RESOURCE, CREATE_RESOURCE_TYPE, DELETE_RESOURCE } from "../actions/types.js";
 
 const initialState = {
     all: [],
@@ -40,6 +40,11 @@ export default function (state = initialState, action) {
                 ...state,
                 types: [...state.types, action.payload]
             }
+        case DELETE_RESOURCE:
+            return {
+                ...state,
+                all: state.all.filter((item) => item.id !== action.payload),
+            };
         default:
             return state;
     }

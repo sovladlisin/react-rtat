@@ -17,8 +17,8 @@ export class ClassForm extends Component {
 
     state = {
         name: 'Не указано',
-        parent: null,
-        corpus: null
+        parent: undefined,
+        corpus: undefined
     }
 
     componentDidMount() {

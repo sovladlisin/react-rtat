@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getPlace, updatePlace } from '../../../actions/place';
+import { getPlace, updatePlace, deletePlace } from '../../../actions/place';
 import ModelPanel from './ModelPanel';
 
 export class Place extends Component {
@@ -11,6 +11,7 @@ export class Place extends Component {
     static propTypes = {
         selected: PropTypes.object.isRequired,
         getPlace: PropTypes.func.isRequired,
+        deletePlace: PropTypes.func.isRequired,
     };
 
     state = {
@@ -52,10 +53,20 @@ export class Place extends Component {
         return null;
     }
 
+    delete = () => {
+        this.props.deletePlace(this.props.pk)
+    }
+
     render() {
         return (
             <Fragment>
-                <ModelPanel save={this.save} model_name='place' pk={this.props.pk} />
+                <ModelPanel
+                    save={this.save}
+                    delete={this.delete}
+                    model_name='place'
+                    pk={this.props.pk}
+                    window_id={this.props.window_id}
+                    closeWindow={this.props.closeWindow} />
                 <form action="">
                     {this.renderForm()}
                 </form>
@@ -66,7 +77,8 @@ export class Place extends Component {
 
 const mapDispatchToProps = {
     getPlace,
-    updatePlace
+    updatePlace,
+    deletePlace
 };
 
 const mapStateToProps = state => ({

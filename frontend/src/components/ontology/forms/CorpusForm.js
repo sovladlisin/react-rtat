@@ -12,7 +12,7 @@ export class CorpusForm extends Component {
         language: 'Не указано',
         dialect: 'Не указано',
         extras: 'Не указано',
-        parent: null
+        parent: undefined
     }
 
     static propTypes = {

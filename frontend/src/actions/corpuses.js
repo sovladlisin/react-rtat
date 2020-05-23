@@ -1,7 +1,10 @@
 import axios from 'axios';
 
-import { GET_CORPUSES, GET_CORPUS, GET_CORPUS_RESOURCES, GET_CORPUS_AUTHORS, GET_CORPUS_PLACES, GET_CORPUS_CLASSES, GET_CORPUS_OBJECTS, UPDATE_CORPUS, CREATE_CORPUS } from './types';
+import { GET_CORPUSES, GET_CORPUS, GET_CORPUS_RESOURCES, GET_CORPUS_AUTHORS, GET_CORPUS_PLACES, GET_CORPUS_CLASSES, GET_CORPUS_OBJECTS, UPDATE_CORPUS, CREATE_CORPUS, DELETE_CORPUS } from './types';
 import { tokenConfig } from './auth'
+import { returnErrors, createMessage } from './messages';
+
+const action_name = "Корпус"
 
 
 import qs from 'qs';
@@ -13,7 +16,10 @@ export const getCorpuses = () => (dispatch, getState) => {
             type: GET_CORPUSES,
             payload: res.data
         });
-    }).catch(err => console.log(err));
+    }).catch((err) => {
+        dispatch(returnErrors(err.response.data, err.response.status, action_name));
+
+    });
 }
 
 //GET CORPUS
@@ -23,7 +29,10 @@ export const getCorpus = id => (dispatch, getState) => {
             type: GET_CORPUS,
             payload: res.data
         });
-    }).catch(err => console.log(err));
+    }).catch((err) => {
+        dispatch(returnErrors(err.response.data, err.response.status, action_name));
+
+    });
 }
 
 //UPDATE CORPUS
@@ -35,7 +44,10 @@ export const updateCorpus = (id, corpus) => (dispatch, getState) => {
             type: UPDATE_CORPUS,
             payload: res.data
         });
-    }).catch(err => console.log(err));
+    }).catch((err) => {
+        dispatch(returnErrors(err.response.data, err.response.status, action_name));
+
+    });
 }
 
 //GET CORPUS RESOURCES
@@ -51,7 +63,10 @@ export const getCorpusResources = id => (dispatch, getState) => {
             payload: resources
         });
 
-    }).catch(err => console.log(err));
+    }).catch((err) => {
+        dispatch(returnErrors(err.response.data, err.response.status, action_name));
+
+    });
 }
 
 //GET CORPUS AUTHORS
@@ -71,8 +86,16 @@ export const getCorpusAuthors = id => (dispatch, getState) => {
                 type: GET_CORPUS_AUTHORS,
                 payload: authors
             });
-        }).catch(err => console.log(err));
-    }).catch(err => console.log(err));
+        }).catch((err) => {
+            dispatch(returnErrors(err.response.data, err.response.status, action_name));
+            dispatch({
+                type: AUTH_ERROR,
+            });
+        });
+    }).catch((err) => {
+        dispatch(returnErrors(err.response.data, err.response.status, action_name));
+
+    });
 }
 
 //GET CORPUS PLACES
@@ -92,8 +115,16 @@ export const getCorpusPlaces = id => (dispatch, getState) => {
                 type: GET_CORPUS_PLACES,
                 payload: places
             });
-        }).catch(err => console.log(err));
-    }).catch(err => console.log(err));
+        }).catch((err) => {
+            dispatch(returnErrors(err.response.data, err.response.status, action_name));
+            dispatch({
+                type: AUTH_ERROR,
+            });
+        });
+    }).catch((err) => {
+        dispatch(returnErrors(err.response.data, err.response.status, action_name));
+
+    });
 }
 
 //GET CORPUS CLASSES
@@ -106,7 +137,10 @@ export const getCorpusClasses = id => (dispatch, getState) => {
             payload: classes
         });
 
-    }).catch(err => console.log(err));
+    }).catch((err) => {
+        dispatch(returnErrors(err.response.data, err.response.status, action_name));
+
+    });
 }
 
 //GET CORPUS OBJECTS
@@ -123,8 +157,16 @@ export const getCorpusObjects = id => (dispatch, getState) => {
                 type: GET_CORPUS_OBJECTS,
                 payload: objects
             });
-        }).catch(err => console.log(err));
-    }).catch(err => console.log(err));
+        }).catch((err) => {
+            dispatch(returnErrors(err.response.data, err.response.status, action_name));
+            dispatch({
+                type: AUTH_ERROR,
+            });
+        });
+    }).catch((err) => {
+        dispatch(returnErrors(err.response.data, err.response.status, action_name));
+
+    });
 }
 
 //CREATE AUTHOR
@@ -135,5 +177,22 @@ export const createCorpus = obj => (dispatch, getState) => {
             type: CREATE_CORPUS,
             payload: res.data
         });
-    }).catch(err => console.log(err));
+    }).catch((err) => {
+        dispatch(returnErrors(err.response.data, err.response.status, action_name));
+
+    });
 }
+
+//DELETE CORPUS
+export const deleteCorpus = (id) => (dispatch, getState) => {
+    axios
+        .delete(`/api/corpus/${id}/`, tokenConfig(getState))
+        .then((res) => {
+            dispatch(createMessage({ deleteSuccess: action_name + " #" + id }));
+            dispatch({
+                type: DELETE_CORPUS,
+                payload: id,
+            });
+        })
+        .catch((err) => console.log(err));
+};

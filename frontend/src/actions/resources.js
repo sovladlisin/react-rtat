@@ -1,7 +1,12 @@
 import axios from 'axios';
 
-import { GET_RESOURCES, GET_RESOURCE, GET_RESOURCE_TYPES, GET_RESOURCE_WORKSPACE, UPDATE_RESOURCE, CREATE_RESOURCE_TYPE } from './types';
+import { GET_RESOURCES, GET_RESOURCE, GET_RESOURCE_TYPES, GET_RESOURCE_WORKSPACE, UPDATE_RESOURCE, CREATE_RESOURCE_TYPE, DELETE_RESOURCE } from './types';
 import { tokenConfig } from './auth'
+import { returnErrors, createMessage } from './messages';
+
+
+const action_name = "Ресурс"
+
 
 //GET RESOURCES
 export const getResources = () => (dispatch, getState) => {
@@ -10,7 +15,10 @@ export const getResources = () => (dispatch, getState) => {
             type: GET_RESOURCES,
             payload: res.data
         });
-    }).catch(err => console.log(err));
+    }).catch((err) => {
+        dispatch(returnErrors(err.response.data, err.response.status, action_name));
+
+    });
 }
 
 //GET RESOURCE
@@ -20,7 +28,10 @@ export const getResource = id => (dispatch, getState) => {
             type: GET_RESOURCE,
             payload: res.data
         });
-    }).catch(err => console.log(err));
+    }).catch((err) => {
+        dispatch(returnErrors(err.response.data, err.response.status, action_name));
+
+    });
 }
 
 export const getResourceTypes = () => (dispatch, getState) => {
@@ -29,7 +40,10 @@ export const getResourceTypes = () => (dispatch, getState) => {
             type: GET_RESOURCE_TYPES,
             payload: res.data
         });
-    }).catch(err => console.log(err));
+    }).catch((err) => {
+        dispatch(returnErrors(err.response.data, err.response.status, action_name));
+
+    });
 }
 
 export const getResourceWorkspace = id => (dispatch, getState) => {
@@ -57,8 +71,18 @@ export const getResourceWorkspace = id => (dispatch, getState) => {
                             type: GET_RESOURCE_WORKSPACE,
                             payload: result
                         });
-                    }).catch(err => console.log(err));
-                }).catch(err => console.log(err));
+                    }).catch((err) => {
+                        dispatch(returnErrors(err.response.data, err.response.status, action_name));
+                        dispatch({
+                            type: AUTH_ERROR,
+                        });
+                    });
+                }).catch((err) => {
+                    dispatch(returnErrors(err.response.data, err.response.status, action_name));
+                    dispatch({
+                        type: AUTH_ERROR,
+                    });
+                });
             }
         }
         else { // has an original
@@ -70,10 +94,23 @@ export const getResourceWorkspace = id => (dispatch, getState) => {
                         type: GET_RESOURCE_WORKSPACE,
                         payload: result
                     });
-                }).catch(err => console.log(err));
-            }).catch(err => console.log(err));
+                }).catch((err) => {
+                    dispatch(returnErrors(err.response.data, err.response.status, action_name));
+                    dispatch({
+                        type: AUTH_ERROR,
+                    });
+                });
+            }).catch((err) => {
+                dispatch(returnErrors(err.response.data, err.response.status, action_name));
+                dispatch({
+                    type: AUTH_ERROR,
+                });
+            });
         }
-    }).catch(err => console.log(err))
+    }).catch((err) => {
+        dispatch(returnErrors(err.response.data, err.response.status, action_name));
+
+    })
 
 }
 
@@ -86,7 +123,10 @@ export const updateResource = (id, obj) => (dispatch, getState) => {
             type: UPDATE_RESOURCE,
             payload: res.data
         });
-    }).catch(err => console.log(err));
+    }).catch((err) => {
+        dispatch(returnErrors(err.response.data, err.response.status, action_name));
+
+    });
 }
 
 //CREATE OBJECT
@@ -97,6 +137,23 @@ export const createResourceType = obj => (dispatch, getState) => {
             type: CREATE_RESOURCE_TYPE,
             payload: res.data
         });
-    }).catch(err => console.log(err));
+    }).catch((err) => {
+        dispatch(returnErrors(err.response.data, err.response.status, action_name));
+
+    });
 }
+
+//DELETE RESOURCE
+export const deleteResource = (id) => (dispatch, getState) => {
+    axios
+        .delete(`/api/resource/${id}/`, tokenConfig(getState))
+        .then((res) => {
+            dispatch(createMessage({ deleteSuccess: action_name + " #" + id }));
+            dispatch({
+                type: DELETE_RESOURCE,
+                payload: id,
+            });
+        })
+        .catch((err) => console.log(err));
+};
 

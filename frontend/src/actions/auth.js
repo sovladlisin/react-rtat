@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { returnErrors } from './messages';
+import { returnErrors, createMessage } from './messages';
 
 import {
     USER_LOADED,

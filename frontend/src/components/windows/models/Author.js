@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getAuthor, updateAuthor } from '../../../actions/authors';
+import { getAuthor, updateAuthor, deleteAuthor } from '../../../actions/authors';
 import { getPlaces } from '../../../actions/place';
 import ModelPanel from './ModelPanel';
 
@@ -13,6 +13,7 @@ export class Author extends Component {
         selected: PropTypes.object.isRequired,
         places: PropTypes.array.isRequired,
         getAuthor: PropTypes.func.isRequired,
+        deleteAuthor: PropTypes.func.isRequired
     };
 
     state = {
@@ -76,10 +77,19 @@ export class Author extends Component {
         return null;
     }
 
+    delete = () => {
+        this.props.deleteAuthor(this.props.pk)
+    }
     render() {
         return (
             <Fragment>
-                <ModelPanel save={this.save} model_name='author' pk={this.props.pk} />
+                <ModelPanel
+                    save={this.save}
+                    delete={this.delete}
+                    model_name='author'
+                    pk={this.props.pk}
+                    window_id={this.props.window_id}
+                    closeWindow={this.props.closeWindow} />
                 <form action="">
                     {this.renderForm()}
                 </form>
@@ -91,7 +101,8 @@ export class Author extends Component {
 const mapDispatchToProps = {
     getAuthor,
     getPlaces,
-    updateAuthor
+    updateAuthor,
+    deleteAuthor
 };
 
 const mapStateToProps = state => ({

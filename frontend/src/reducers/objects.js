@@ -1,4 +1,4 @@
-import { GET_MARKUP_ENTITES, GET_OBJECT, GET_OBJECTS, GET_ENTITIES_TEXT, GET_ENTITIES_OBJECT, ADD_ENTITY, DELETE_ENTITY, UPDATE_OBJECT, CREATE_OBJECT, GET_MARKUPS_TEXT, CREATE_MARKUP } from "../actions/types.js";
+import { GET_MARKUP_ENTITES, GET_OBJECT, GET_OBJECTS, GET_ENTITIES_TEXT, GET_ENTITIES_OBJECT, ADD_ENTITY, DELETE_ENTITY, UPDATE_OBJECT, CREATE_OBJECT, GET_MARKUPS_TEXT, CREATE_MARKUP, DELETE_OBJECT, DELETE_MARKUP } from "../actions/types.js";
 
 const initialState = {
     all: [],
@@ -64,6 +64,16 @@ export default function (state = initialState, action) {
                 ...state,
                 markups: [...state.markups, action.payload]
             }
+        case DELETE_OBJECT:
+            return {
+                ...state,
+                all: state.all.filter((item) => item.id !== action.payload),
+            };
+        case DELETE_MARKUP:
+            return {
+                ...state,
+                markups: state.markups.filter((item) => item.id !== action.payload),
+            };
         default:
             return state;
     }
