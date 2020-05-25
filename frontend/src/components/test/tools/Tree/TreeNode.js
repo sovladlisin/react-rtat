@@ -11,6 +11,7 @@ export class TreeNode extends Component {
 
     toggle = (pk) => {
         this.props.getCorpusInfo(pk);
+        this.setState({ visible: !this.state.visible });
     };
 
     render() {
