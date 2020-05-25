@@ -180,8 +180,8 @@ div.pin>button {
 }
 .window-content >p {
     padding: 7px;
+    width: 550px;
     font-size: 10pt;
-    margin: 5px 0;
     line-height: 30px;
 }
 button.delete {
