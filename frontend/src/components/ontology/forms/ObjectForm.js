@@ -45,6 +45,7 @@ export class ObjectForm extends Component {
             <Fragment>
                 <label>Название</label><input onChange={this.onChange} type="text" name="name" value={this.state.name} />
                 <label>Класс</label><select onChange={this.onChange} name="parent_class" id="parent_class" value={this.state.parent_class}>
+                    <option value="">Не указано</option>
                     {class_select}
                 </select>
             </Fragment>

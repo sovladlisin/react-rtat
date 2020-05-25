@@ -19,6 +19,7 @@ export const getClasses = () => (dispatch, getState) => {
     });
 }
 
+
 //GET CLASS
 export const getClass = id => (dispatch, getState) => {
     axios.get(`/api/class/${id}/`, tokenConfig(getState)).then(res => {

@@ -269,7 +269,7 @@ form.main-form input, form.main-form select {
 .content .info {
     width: 1200px;
     display: grid;
-    margin: 20px auto;
+    margin: 40px auto;
     grid-template-columns: minmax(100px, max-content) auto auto;
 }
 .content-all {
@@ -299,4 +299,25 @@ form.main-form input, form.main-form select {
     z-index: 9;
     height: 20px;
     font-size: 10pt;
+}
+
+.content-head {
+    width: 900px;
+    margin: 10px auto;
+    display: grid;
+    grid-template-columns: auto;
+}
+.content-head div:first-child {
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+}
+.content-head div:nth-child(2) {
+    display: grid;
+    background: white;
+    grid-template-columns: repeat(7, auto);
+    margin: 10px;
+    width: 900px;
+}
+.content-head div:nth-child(2) button {
+    padding: 10px
 }

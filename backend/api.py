@@ -4,8 +4,8 @@ from rest_framework import viewsets, permissions
 from .serializers import MarkupSerializer, ObjectSerializer, ClassSerializer, TestSerializer, CorpusSerializer, ResourceSerializer, ResourceTypeSerializer, AuthorSerializer, TextToTextSerializer, PlaceSerializer, CorpusPlacesSerializer, CorpusAuthorsSerializer, EntitySerializer
 
 
-# perm = permissions.IsAuthenticated
 perm = permissions.IsAuthenticated
+# perm = permissions.AllowAny
 
 
 class ClassViewSet(viewsets.ModelViewSet):

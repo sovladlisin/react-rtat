@@ -68,7 +68,7 @@ export class Author extends Component {
                     <label>Дата смерти</label><input onChange={this.onChange} type="text" name="date_of_death" value={this.state.date_of_death} />
                     <label>Изображение</label><input onChange={this.onChange} type="text" name="picture" value={this.state.picture} />
                     <label>Место рождения</label><select onChange={this.onChange} name="place_of_birth" id="place_of_birth" value={this.state.place_of_birth}>
-                        <option value=""></option>
+                        <option value="">Не указано</option>
                         {places_select}
                     </select>
                 </Fragment>

@@ -73,6 +73,7 @@ export class Class extends Component {
                         {parent_select}
                     </select>
                     <label>Корпус</label><select onChange={this.onChange} name="corpus" id="corpus" value={this.state.corpus}>
+                        <option value="">Не указано</option>
                         {corpus_select}
                     </select>
                 </Fragment>

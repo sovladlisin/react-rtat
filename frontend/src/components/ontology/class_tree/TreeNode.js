@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import Pin from '../../../pins/Pin';
+import Pin from '../../pins/Pin';
 
 export class TreeNode extends Component {
     constructor(props) {
@@ -9,10 +9,9 @@ export class TreeNode extends Component {
         };
     }
 
-    toggle = (pk) => {
-        this.props.getCorpusInfo(pk);
-    };
-
+    toggle = () => {
+        this.setState({ visible: !this.state.visible });
+    }
     render() {
         var children;
         var className;
@@ -20,7 +19,7 @@ export class TreeNode extends Component {
         const self = this
 
         const name = this.props.node.name,
-            model_name = 'corpus',
+            model_name = 'class',
             id = this.props.node.id
 
         if (this.props.node.children != null) {
@@ -29,7 +28,6 @@ export class TreeNode extends Component {
                     <TreeNode
                         node={node}
                         level={level}
-                        getCorpusInfo={self.props.getCorpusInfo}
                         createWindow={self.props.createWindow} />
                 </li>
             });
@@ -53,7 +51,7 @@ export class TreeNode extends Component {
 
         return (
             <div style={padding}>
-                <div onClick={() => this.toggle(id)} className={className}>
+                <div onClick={this.toggle} className={className}>
                     <Pin
                         model_name={model_name}
                         pk={id}

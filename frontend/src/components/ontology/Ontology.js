@@ -7,14 +7,30 @@ import CorpusTree from '../test/tools/CorpusTree'
 import PlaceForm from './forms/PlaceForm'
 import ResourceTypeForm from './forms/ResourceTypeForm'
 
+
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+import { getCorpuses, getCorpusClasses } from '../../actions/corpuses';
+import ClassesTree from './class_tree/ClassesTree'
+
 export class Ontology extends Component {
 
     state = {
-        selected_model: '1'
+        selected_model: '1',
+        selected_corpus: null
     }
 
-    selectModel = e => {
-        this.setState({ selected_model: e.target.value })
+    static PropTypes = {
+        getCorpuses: PropTypes.func.isRequired,
+        getCorpusClasses: PropTypes.func.isRequired,
+        corpuses: PropTypes.array.isRequired,
+        selected_classes: PropTypes.array.isRequired
+    }
+
+    selectModel = (model) => {
+        this.setState({ selected_model: model })
+        if (model == '3') this.props.getCorpuses()
     }
 
 
@@ -45,20 +61,58 @@ export class Ontology extends Component {
     }
 
 
+    renderClassCorpuses = () => {
+        const selected_style = {
+            background: "black",
+            color: "white"
+        }
+        const style = {
+            background: "none",
+            color: "black"
+        }
+        if (this.state.selected_model == "3") {
+            if (this.props.corpuses.length != 0) {
+                return this.props.corpuses.map(item => {
+                    const current_style = this.state.selected_corpus == item.id ? selected_style : style
+                    return (<button
+                        style={current_style}
+                        onClick={() => { this.selectCorpus(item.id) }}>
+                        {item.name}</button>)
+                })
+            }
+        }
+    }
+
+    selectCorpus = (id) => {
+        this.props.getCorpusClasses(id);
+        this.setState({ selected_corpus: id })
+    }
+
+    renderSelectedClasses = () => {
+        if (this.state.selected_model == '3' & this.props.selected_classes.length != 0) {
+            return <ClassesTree classes={this.props.selected_classes} createWindow={this.props.createWindow}></ClassesTree>
+        }
+
+    }
+
     render() {
         return (
             <Fragment>
                 <div className="content">
-                    <p>Выбрать действие:</p>
-                    <select onChange={this.selectModel}>
-                        <option key="1" value="1">Создать нового автора</option>
-                        <option key="2" value="2">Создать новое место</option>
-                        <option key="3" value="3">Создать новый класс</option>
-                        <option key="4" value="4">Создать новый объект класса</option>
-                        <option key="5" value="5">Создать новый тип ресурса</option>
-                        <option key="6" value="6">Создать новый корпус</option>
-                    </select>
+                    <div className="content-head">
+                        <div>
+                            <button onClick={() => { this.selectModel('1') }}>Авторы</button>
+                            <button onClick={() => { this.selectModel('2') }}>Места</button>
+                            <button onClick={() => { this.selectModel('3') }}>Классы</button>
+                            <button onClick={() => { this.selectModel('4') }}>Объекты</button>
+                            <button onClick={() => { this.selectModel('6') }}>Корпусы</button>
+                        </div>
+                        <div>
+                            {this.renderClassCorpuses()}
+                        </div>
+                    </div>
                     <div className="info">
+                        {this.renderSelectedClasses()}
                         {this.renderForms()}
                     </div>
                 </div>
@@ -68,4 +122,14 @@ export class Ontology extends Component {
     }
 }
 
-export default Ontology
+const mapDispatchToProps = {
+    getCorpuses,
+    getCorpusClasses
+};
+
+const mapStateToProps = state => ({
+    corpuses: state.corpuses.all,
+    selected_classes: state.corpuses.classes,
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Ontology);
