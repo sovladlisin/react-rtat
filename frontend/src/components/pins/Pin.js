@@ -10,10 +10,18 @@ export class Pin extends Component {
         }
     }
 
+    transfer = (e) => {
+        e.dataTransfer.setData('pk', this.props.pk)
+        e.dataTransfer.setData('model_name', this.props.model_name)
+    }
 
     render() {
         return (
-            <div className="pin">
+            <div
+                className="pin"
+                onDragStart={(e) => this.transfer(e)}
+                draggable
+            >
                 <p>{this.props.name} #{this.props.pk}</p>
                 <button onClick={() => this.props.createWindow(
                     this.props.model_name + this.props.pk, //window-id

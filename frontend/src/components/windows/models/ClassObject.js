@@ -2,10 +2,11 @@ import React, { Component, Fragment } from 'react'
 import ModelPanel from './ModelPanel';
 
 import { getClasses } from '../../../actions/classes';
-import { getObject, addEntity, getEntitiesFromObject, deleteEntity, updateObject, deleteObject } from '../../../actions/objects';
+import { getObject, addEntity, getEntitiesFromObject, deleteEntity, updateObject, deleteObject, getObjectRelations, createRelation, deleteRelation } from '../../../actions/objects';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, connectAdvanced } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom'
+import Pin from '../../pins/Pin';
 
 export class ClassObject extends Component {
 
@@ -17,7 +18,14 @@ export class ClassObject extends Component {
         new_lines: [],
         deleted_lines: [],
         name: '',
-        parent_class: null
+        parent_class: null,
+        new_relations: [],
+        new_relation_types: [],
+        children: {},
+        parents: {},
+        relation_type_input: false,
+        selected_relation_role: null,
+        selected_relation_name: null
     }
 
     static propTypes = {
@@ -26,7 +34,10 @@ export class ClassObject extends Component {
         entities: PropTypes.array.isRequired,
         getClasses: PropTypes.func.isRequired,
         getObject: PropTypes.func.isRequired,
-        deleteObject: PropTypes.func.isRequired
+        deleteObject: PropTypes.func.isRequired,
+        relations: PropTypes.array.isRequired,
+        getObjectRelations: PropTypes.func.isRequired,
+        deleteRelation: PropTypes.func.isRequired
     };
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -37,6 +48,25 @@ export class ClassObject extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.selected.id === this.props.pk) {
+            if (nextProps.relations.length != 0) {
+                var children = {}
+                var parents = {}
+                var relations = nextProps.relations
+                relations.map(item => {
+                    if (item.parent == this.props.pk) {
+                        children[item.name] = children.hasOwnProperty(item.name) ? children[item.name] : []
+                        children[item.name] = [...children[item.name], { new: false, id: item.child, delete: false }]
+                    }
+                    if (item.child == this.props.pk) {
+                        parents[item.name] = parents.hasOwnProperty(item.name) ? parents[item.name] : []
+                        parents[item.name] = [...parents[item.name], { new: false, id: item.parent, delete: false }]
+                    }
+                    this.setState({
+                        children: children,
+                        parents: parents
+                    })
+                })
+            }
             this.setState({
                 name: nextProps.selected.name,
                 parent_class: nextProps.selected.parent_class
@@ -48,9 +78,14 @@ export class ClassObject extends Component {
         this.props.getObject(this.props.pk)
         this.props.getClasses()
         this.props.getEntitiesFromObject(this.props.pk)
+        this.props.getObjectRelations(this.props.pk)
     }
 
     save = () => {
+        const self = this
+        const parents = this.state.parents
+        const children = this.state.children
+
         this.state.new_lines.map(item => {
             const new_entitiy = {
                 position_start: parseInt(item.position),
@@ -64,14 +99,36 @@ export class ClassObject extends Component {
             this.props.deleteEntity(id)
         })
 
-        console.log(this.state)
         const { name, parent_class } = this.state
         const obj = { name, parent_class }
         this.props.updateObject(this.props.pk, obj)
 
+
+        Object.keys(parents).map(function (key, index) {
+            const child = self.props.pk
+            parents[key].filter(item => item.delete == false && item.new == true).map(item => {
+                self.props.createRelation({ parent: item.id, child: child, name: key })
+            })
+            parents[key].filter(item => item.delete == true).map(item => {
+                self.props.deleteRelation({ parent: item.id, child: child, name: key })
+            })
+        })
+        Object.keys(children).map(function (key, index) {
+            const parent = self.props.pk
+            children[key].filter(item => item.delete == false && item.new == true).map(item => {
+                self.props.createRelation({ parent: parent, child: item.id, name: key })
+            })
+            children[key].filter(item => item.delete == true).map(item => {
+                self.props.deleteRelation({ parent: parent, child: item.id, name: key })
+            })
+        })
+
+
         this.setState({
             new_lines: [],
-            deleted_lines: []
+            deleted_lines: [],
+            parents: {},
+            children: {}
         })
 
     }
@@ -107,7 +164,7 @@ export class ClassObject extends Component {
         return null;
     }
 
-    addingLine = (e) => {
+    addingDrag = (e) => {
         e.preventDefault()
     }
 
@@ -132,6 +189,184 @@ export class ClassObject extends Component {
         this.props.deleteObject(this.props.pk)
     }
 
+    //need to change this function - its too funny
+    addRelation = (e, role, name) => {
+        if (e.dataTransfer.getData("model_name") == "object") {
+            if (parseInt(e.dataTransfer.getData("pk")) != this.props.pk) {
+
+                var children = this.state.children
+                var parents = this.state.parents
+
+                const object_id = parseInt(e.dataTransfer.getData("pk"))
+
+                if (role == "parent") {
+                    if (children[name].filter(item => item.id == object_id).length == 0)
+                        children[name] = [...children[name], { new: true, id: object_id, delete: false }]
+                }
+
+                if (role == "child") {
+                    if (parents[name].filter(item => item.id == object_id).length == 0)
+                        parents[name] = [...parents[name], { new: true, id: object_id, delete: false }]
+                }
+                this.setState({
+                    parents: parents,
+                    children: children,
+                })
+            }
+        }
+    }
+
+    renderRelations = () => {
+        const parents = this.state.parents
+        const children = this.state.children
+        const self = this
+
+
+        const parents_dom = Object.keys(parents).length === 0 ? null : Object.keys(parents).map(function (key, index) {
+            const pins = parents[key].map(item => {
+                if (item.delete != true)
+                    return (
+                        <Fragment>
+                            <Pin
+                                key={item.id}
+                                model_name={'object'}
+                                pk={item.id}
+                                createWindow={self.props.createWindow}
+                                name={'Объект'} />
+                            <button
+                                className="delete-relation"
+                                onClick={() => { self.deleteRelation("child", key, item.id) }}
+                            >
+                                <i class="far fa-trash-alt"></i>
+                            </button>
+                        </Fragment>
+                    )
+            })
+            return (
+                <div className="relation">
+                    <p>Связь: {key}</p>
+                    <div
+                        class="add-relation"
+                        onDragOver={(e) => self.addingDrag(e)}
+                        onDrop={(e) => self.addRelation(e, "child", key)}>
+                        {pins}
+                    </div>
+                </div>
+            )
+        });
+        const children_dom = Object.keys(children).length === 0 ? null : Object.keys(children).map(function (key, index) {
+            const pins = children[key].map(item => {
+                if (item.delete != true)
+                    return (
+                        <Fragment>
+                            <Pin
+                                key={item.id}
+                                model_name={'object'}
+                                pk={item.id}
+                                createWindow={self.props.createWindow}
+                                name={'Объект'} />
+                            <button
+                                className="delete-relation"
+                                onClick={() => { self.deleteRelation("parent", key, item.id) }}
+                            >
+                                <i class="far fa-trash-alt"></i>
+                            </button>
+                        </Fragment>
+                    )
+            })
+            return (
+                <div className="relation">
+                    <p>Связь: {key}</p>
+                    <div
+                        class="add-relation"
+                        onDragOver={(e) => self.addingDrag(e)}
+                        onDrop={(e) => self.addRelation(e, "parent", key)}>
+                        {pins}
+                    </div>
+                </div>
+            )
+        });
+        return (
+            <Fragment>
+                <p>Родители: <button onClick={() => { this.toggleRelationTypeInput('parent') }} className="add-relation-type"> <i class="fas fa-plus"></i> </button></p>
+                {parents_dom}
+                <p>Потомки: <button onClick={() => { this.toggleRelationTypeInput('child') }} className="add-relation-type"> <i class="fas fa-plus"></i> </button></p>
+                {children_dom}
+            </Fragment>)
+    }
+
+    toggleRelationTypeInput = (role) => {
+        this.setState({ relation_type_input: !this.state.relation_type_input, selected_relation_role: role })
+    }
+
+    renderRelationTypeInput = () => {
+        if (this.state.relation_type_input) {
+            const role = this.state.selected_relation_role == 'parent' ? "родителями" : "потомками"
+            return (
+                <div className="create-relation-type">
+                    <p>Создать новый тип связи с {role}</p>
+                    <p>Название связи:</p>
+                    <input
+                        name="selected_relation_name"
+                        onChange={this.onChange}
+                        type="text"
+                        placeholder="Введите название связи"
+                        value={this.state.selected_relation_name}></input>
+                    <button onClick={this.createRelationType}>Создать</button>
+                    <button onClick={() => { this.toggleRelationTypeInput(null) }}>Свернуть</button>
+                </div>
+            )
+        }
+    }
+
+    createRelationType = () => {
+        const name = this.state.selected_relation_name
+        const role = this.state.selected_relation_role
+        var parents = this.state.parents
+        var children = this.state.children
+
+        if (role == 'parent') {
+            parents[name] = parents.hasOwnProperty(name) ? parents[name] : []
+        }
+        else {
+            children[name] = children.hasOwnProperty(name) ? children[name] : []
+        }
+        this.setState({
+            children: children,
+            parents: parents,
+            selected_relation_role: null,
+            selected_relation_name: null
+        })
+    }
+
+    deleteRelation = (role, name, object_id) => {
+        var parents = this.state.parents
+        var children = this.state.children
+        var element = {}
+
+
+        if (role == "parent") {
+            element = children[name].filter(item => item.id == object_id)[0]
+            element.delete = true
+            children[name] = [...children[name].filter(item => item.id != object_id), element]
+        }
+
+        if (role == "child") {
+            element = parents[name].filter(item => item.id == object_id)[0]
+            element.delete = true
+            parents[name] = [...parents[name].filter(item => item.id != object_id), element]
+        }
+
+        this.setState({
+            parents: parents,
+            children: children,
+        })
+    }
+
+
+
+
+
 
     render() {
         const delete_style = {
@@ -140,7 +375,7 @@ export class ClassObject extends Component {
         return (
             <Fragment>
                 <ModelPanel save={this.save} delete={this.delete} model_name='object' pk={this.props.pk} window_id={this.props.window_id} closeWindow={this.props.closeWindow} />
-
+                {this.renderRelationTypeInput()}
                 <form action="">
                     {this.renderForm()}
                 </form>
@@ -176,13 +411,16 @@ export class ClassObject extends Component {
                 <p>Добавить строку:
                     <div
                         class="lines"
-                        onDragOver={(e) => this.addingLine(e)}
+                        onDragOver={(e) => this.addingDrag(e)}
                         onDrop={(e) => this.addLine(e, "complete")}>
                         Перетащите строку в данное поле
                     </div>
                 </p>
-
-            </Fragment>
+                <p>Связи:</p>
+                <div className="relations">
+                    {this.renderRelations()}
+                </div>
+            </Fragment >
 
         )
     }
@@ -195,13 +433,17 @@ const mapDispatchToProps = {
     getEntitiesFromObject,
     deleteEntity,
     updateObject,
-    deleteObject
+    deleteObject,
+    getObjectRelations,
+    createRelation,
+    deleteRelation
 };
 
 const mapStateToProps = state => ({
     selected: state.objects.selected,
     classes: state.classes.all,
-    entities: state.objects.entities_object
+    entities: state.objects.entities_object,
+    relations: state.objects.object_relations
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ClassObject);

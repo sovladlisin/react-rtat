@@ -1,7 +1,7 @@
 import axios from 'axios';
 import qs from 'qs';
 
-import { CREATE_MARKUP, GET_MARKUP_ENTITES, GET_MARKUPS_TEXT, GET_OBJECT, GET_OBJECTS, GET_ENTITIES_TEXT, GET_ENTITIES_OBJECT, ADD_ENTITY, DELETE_ENTITY, UPDATE_OBJECT, CREATE_OBJECT, DELETE_OBJECT, DELETE_MARKUP } from './types';
+import { CREATE_MARKUP, GET_MARKUP_ENTITES, GET_MARKUPS_TEXT, GET_OBJECT, GET_OBJECTS, GET_ENTITIES_TEXT, GET_ENTITIES_OBJECT, ADD_ENTITY, DELETE_ENTITY, UPDATE_OBJECT, CREATE_OBJECT, DELETE_OBJECT, DELETE_MARKUP, CREATE_RELATION, GET_RELATIONS_FROM_OBJECT, DELETE_RELATION } from './types';
 import { tokenConfig } from './auth'
 import { returnErrors, createMessage } from './messages';
 
@@ -149,6 +149,55 @@ export const createObject = obj => (dispatch, getState) => {
     });
 }
 
+//CREATE RELATION
+export const createRelation = (obj) => (dispatch, getState) => {
+    const body = JSON.stringify(obj)
+    axios.post(`/api/relation/`, body, tokenConfig(getState)).then(res => {
+        dispatch({
+            type: CREATE_RELATION,
+            payload: res.data
+        });
+    }).catch((err) => {
+        dispatch(returnErrors(err.response.data, err.response.status, action_name));
+
+    });
+}
+
+//GET RELATIONS FROM OBJECT
+export const getObjectRelations = (id) => (dispatch, getState) => {
+    axios.get(`/api/relation/`, tokenConfig(getState)).then(res => {
+        const result = res.data.filter(item => item.parent == id | item.child == id)
+        dispatch({
+            type: GET_RELATIONS_FROM_OBJECT,
+            payload: result
+        });
+    }).catch((err) => {
+        dispatch(returnErrors(err.response.data, err.response.status, action_name));
+    });
+}
+
+//DELETE RELATION
+export const deleteRelation = (obj) => (dispatch, getState) => {
+    axios.get(`/api/relation/`, tokenConfig(getState)).then(res => {
+        const result = res.data.filter(item => item.parent == obj.parent && item.child == obj.child && item.name == obj.name)[0]
+        console.log(result)
+        axios.delete(`/api/relation/${result.id}/`, tokenConfig(getState))
+            .then((res) => {
+                dispatch({
+                    type: DELETE_RELATION,
+                    payload: result.id,
+                });
+            })
+            .catch((err) => {
+                dispatch(returnErrors(err.response.data, err.response.status, action_name));
+            });
+    }).catch((err) => {
+        dispatch(returnErrors(err.response.data, err.response.status, action_name));
+    });
+}
+
+
+
 //DELETE OBJECT
 export const deleteObject = (id) => (dispatch, getState) => {
     axios
@@ -176,3 +225,4 @@ export const deleteMarkup = (id) => (dispatch, getState) => {
         })
         .catch((err) => console.log(err));
 };
+

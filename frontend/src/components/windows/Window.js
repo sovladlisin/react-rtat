@@ -56,7 +56,7 @@ export class Window extends Component {
                 return <Author pk={this.props.pk} window_id={this.props.id} closeWindow={this.props.closeWindow} />
 
             case 'object':
-                return <ClassObject pk={this.props.pk} window_id={this.props.id} closeWindow={this.props.closeWindow} />
+                return <ClassObject pk={this.props.pk} window_id={this.props.id} createWindow={this.props.createWindow} closeWindow={this.props.closeWindow} />
 
             case 'class':
                 return <Class pk={this.props.pk} window_id={this.props.id} closeWindow={this.props.closeWindow} />

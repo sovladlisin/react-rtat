@@ -1,11 +1,12 @@
-import { GET_MARKUP_ENTITES, GET_OBJECT, GET_OBJECTS, GET_ENTITIES_TEXT, GET_ENTITIES_OBJECT, ADD_ENTITY, DELETE_ENTITY, UPDATE_OBJECT, CREATE_OBJECT, GET_MARKUPS_TEXT, CREATE_MARKUP, DELETE_OBJECT, DELETE_MARKUP } from "../actions/types.js";
+import { GET_MARKUP_ENTITES, GET_OBJECT, GET_OBJECTS, GET_ENTITIES_TEXT, GET_ENTITIES_OBJECT, ADD_ENTITY, DELETE_ENTITY, UPDATE_OBJECT, CREATE_OBJECT, GET_MARKUPS_TEXT, CREATE_MARKUP, DELETE_OBJECT, DELETE_MARKUP, CREATE_RELATION, GET_RELATIONS_FROM_OBJECT, DELETE_RESOURCE, DELETE_RELATION } from "../actions/types.js";
 
 const initialState = {
     all: [],
     selected: {},
     entities_text: [],
     entities_object: [],
-    markups: []
+    markups: [],
+    object_relations: []
 }
 
 export default function (state = initialState, action) {
@@ -74,6 +75,21 @@ export default function (state = initialState, action) {
                 ...state,
                 markups: state.markups.filter((item) => item.id !== action.payload),
             };
+        case CREATE_RELATION:
+            return {
+                ...state,
+                object_relations: [...state.object_relations, action.payload]
+            }
+        case GET_RELATIONS_FROM_OBJECT:
+            return {
+                ...state,
+                object_relations: action.payload
+            }
+        case DELETE_RELATION:
+            return {
+                ...state,
+                object_relations: state.object_relations.filter(item => item.id != action.payload)
+            }
         default:
             return state;
     }

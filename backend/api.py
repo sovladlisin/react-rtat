@@ -1,11 +1,20 @@
 from django.db.models import Q
-from backend.models import Markup, Class, Object, Test, Corpus, Resource, ResourceType, Author, TextToText, Place, CorpusPlaces, CorpusAuthors, TextToText, Entity
+from backend.models import Relation, Markup, Class, Object, Test, Corpus, Resource, ResourceType, Author, TextToText, Place, CorpusPlaces, CorpusAuthors, TextToText, Entity
 from rest_framework import viewsets, permissions
-from .serializers import MarkupSerializer, ObjectSerializer, ClassSerializer, TestSerializer, CorpusSerializer, ResourceSerializer, ResourceTypeSerializer, AuthorSerializer, TextToTextSerializer, PlaceSerializer, CorpusPlacesSerializer, CorpusAuthorsSerializer, EntitySerializer
+from .serializers import RelationSerializer, MarkupSerializer, ObjectSerializer, ClassSerializer, TestSerializer, CorpusSerializer, ResourceSerializer, ResourceTypeSerializer, AuthorSerializer, TextToTextSerializer, PlaceSerializer, CorpusPlacesSerializer, CorpusAuthorsSerializer, EntitySerializer
 
 
 perm = permissions.IsAuthenticated
 # perm = permissions.AllowAny
+
+
+class RelationViewSet(viewsets.ModelViewSet):
+    queryset = Relation.objects.all()
+    permission_classes = [
+        perm
+    ]
+
+    serializer_class = RelationSerializer
 
 
 class ClassViewSet(viewsets.ModelViewSet):

@@ -179,3 +179,11 @@ class Entity(models.Model):
 
     def __str__(self):
         return self.position_start.__str__() + self.position_end + self.markup.name
+
+
+class Relation(models.Model):
+    parent = models.ForeignKey(
+        Object, blank=True, null=True, on_delete=models.CASCADE, related_name="relation_parent")
+    child = models.ForeignKey(
+        Object, blank=True, null=True, on_delete=models.CASCADE, related_name="relation_child")
+    name = models.CharField(max_length=300, default="Не указано")

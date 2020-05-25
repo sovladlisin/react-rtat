@@ -12,6 +12,7 @@ export class Container extends Component {
         this.renderWindows = this.renderWindows.bind(this)
         this.hideWindow = this.hideWindow.bind(this)
         this.showWindow = this.showWindow.bind(this)
+        this.createWindow = this.createWindow.bind(this)
     }
 
 
@@ -78,6 +79,7 @@ export class Container extends Component {
                         hideWindow={this.hideWindow}
                         id={windows[key].id}
                         name={windows[key].name}
+                        createWindow={this.createWindow}
                     />
 
                 )
