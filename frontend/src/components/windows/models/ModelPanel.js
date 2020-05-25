@@ -3,11 +3,12 @@ import { Redirect, Link } from 'react-router-dom'
 
 export class ModelPanel extends Component {
     animate = () => {
-        const $data = document.getElementById(this.props.pk + this.props.model_name)
+        const $data = document.getElementById("notification-" + this.props.model_name + this.props.pk)
+        console.log($data)
         $data.animate([
             // keyframes
-            { background: 'grey' },
-            { background: 'white' }
+            { opacity: '1' },
+            { opacity: '0' }
         ], {
             // timing options
             duration: 1000,

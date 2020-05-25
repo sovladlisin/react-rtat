@@ -8,14 +8,14 @@
     overflow-y: hidden;
     top: 70px;
     left: 70px;
-    -webkit-box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);
-    -moz-box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);
-    box-shadow: 0px 1px 8px 1px rgba(0,0,0,0.2);
+    -webkit-box-shadow: 0px 5px 0px 0px rgb(35,45,65, 0.3);
+    -moz-box-shadow: 0px 5px 0px 0px rgb(35,45,65, 0.3);
+    box-shadow: 0px 5px 0px 0px rgb(35,45,65, 0.3);
 }
 .window-header {
     width: inherit;
-    height: 30px;
-    background: gray;
+    height: 45px;
+    background: #232d41;
     color: white;
 }
 .window-header button{
@@ -23,16 +23,18 @@
     display: block;
     height: 30px;
     width: 30px;
+    font-size: 10pt;
+    margin-right: 5px;
     color: white;
-    line-height: 30px;
+    line-height: 45px;
 }
 .window-header p{
     float: left;
     display: block;
     width: 300px;
     text-align: left;
-    line-height: 30px;
-    padding-left: 10px;
+    line-height: 45px;
+    padding-left: 20px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -45,9 +47,9 @@
     margin: 5px;
     color: black;
     background: white;
-    -webkit-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
-    -moz-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
-    box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
+    -webkit-box-shadow: 0px 2px 0px 1px rgb(35,45,65, 0.3);
+    -moz-box-shadow: 0px 2px 0px 1px rgb(35,45,65, 0.3);
+    box-shadow: 0px 2px 0px 1px rgb(35,45,65, 0.3);
 }
 .pin>p{
     height:35px;
@@ -78,12 +80,17 @@ div.pin>button {
 .hidden-window-container div{
     height: 20px;
     width: 163px;
-    background: gray;
+    background: #232d41;
     padding: 5px;
+    color: white;
 }
 .model-panel {
-    border-bottom: 1px solid gray;
-    height: 30px;
+    height: 35px;
+    background: #eaf4f4;
+    padding: 2px 5px;
+    -webkit-box-shadow: 0px 4px 0px -2px rgb(35,45,65, 0.3);
+    -moz-box-shadow: 0px 4px 0px -2px rgb(35,45,65, 0.3);
+    box-shadow: 0px 3px 0px -2px rgb(35,45,65, 0.3);
 }
 .model-panel button{
     float: left;
@@ -97,22 +104,23 @@ div.pin>button {
     height: 30px;
     font-size: 10pt;
     padding-left: 5px;
-    -webkit-box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);
-    -moz-box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);
-    box-shadow: 0px 1px 1px 1px rgba(0,0,0,0.2);
+    -webkit-box-shadow: 0px 4px 0px -2px rgb(35,45,65, 0.3);
+    -moz-box-shadow: 0px 4px 0px -2px rgb(35,45,65, 0.3);
+    box-shadow: 0px 4px 0px -2px rgb(35,45,65, 0.3);
 }
 
 .window form {
     display: grid;
     grid-template-columns: 200px auto;
     grid-gap: 5px;
-    padding: 5px;
+    padding: 10px 5px;
 }
 
 .window-content {
     overflow: auto;
-    height: 460px;
-    padding: 5px;
+    height: 435px;
+    padding: 10px;
+    background: #eaf4f4;
 }
 .hidden-window-container div button {
     width: inherit;
@@ -120,6 +128,10 @@ div.pin>button {
     text-align: left;
     text-overflow: ellipsis;
     white-space: nowrap;
+    color: white;
+    padding-left: 5px;
+    font-size: 10pt;
+    line-height: 20px;
 }
 .model-panel a {
     float: left;
@@ -132,23 +144,25 @@ div.pin>button {
 .window form select{
     padding-left: 5px;
     font-size: 10pt;
-    -webkit-box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);
-    -moz-box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);
-    box-shadow: 0px 1px 1px 1px rgba(0,0,0,0.2);
+    -webkit-box-shadow: 0px 4px 0px -2px rgb(35,45,65, 0.3);
+    -moz-box-shadow: 0px 4px 0px -2px rgb(35,45,65, 0.3);
+    box-shadow: 0px 4px 0px -2px rgb(35,45,65, 0.3);
 }
 .lines {
     width: 370px;
     height: 25px;
     float: right;
+    color: white;
+    margin: 2px 0;
     line-height: 25px;
     padding-left: 10px;
-    background: gainsboro;
+    background: #495874;
     -webkit-box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);
     -moz-box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);
     box-shadow: 0px 1px 1px 1px rgba(0,0,0,0.2);
 }
 .object-line {
-    width: 500px;
+    width: 490px;
     height: 20px;
     margin: 5px;
     padding: 5px;
@@ -167,6 +181,8 @@ div.pin>button {
 .window-content >p {
     padding: 7px;
     font-size: 10pt;
+    margin: 5px 0;
+    line-height: 30px;
 }
 button.delete {
     width: 60px;
@@ -179,19 +195,27 @@ button.delete {
 }
 .relations>p {
     font-size: 10pt;
-    background: gainsboro;
+    background: #495874;
     padding: 7px;
+    line-height: 23px;
+    color: white;
+    margin-top: 7px;
 }
 
 .relation>p {
     font-size: 10pt;
-    background: grey;
+    background: white;
     padding: 7px;
+    margin: 5px 0 2px 0;
+    line-height: 16px;
+    -webkit-box-shadow: 0px 3px 0px 0px rgb(35,45,65, 0.5);
+    -moz-box-shadow: 0px 3px 0px 0px rgb(35,45,65, 0.5);
+    box-shadow: 0px 3px 0px 0px rgb(35,45,65, 0.5);
 }
 
 .add-relation {
     height: 80px;
-    background: #ffbbbb;
+    background: #c7d9d9;
     display: grid;
     gap: 0px;
     grid-template-columns: minmax(0px, 250px) 10px minmax(0px, 250px) 35px;
@@ -203,9 +227,9 @@ button.delete-relation {
     height: 35px;
     background: white;
     margin: 5px -50px;
-    -webkit-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
-    -moz-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
-    box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
+    -webkit-box-shadow: 0px 2px 0px 1px rgb(35,45,65, 0.3);
+    -moz-box-shadow: 0px 2px 0px 1px rgb(35,45,65, 0.3);
+    box-shadow: 0px 2px 0px 1px rgb(35,45,65, 0.3);
 }
 .create-relation-type {
     position: absolute;
@@ -246,4 +270,23 @@ button.add-relation-type {
     -webkit-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
     -moz-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
     box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
+}
+.window-hover-notification {
+    width: 600px;
+    height: 460px;
+    background: rgb(35,45,65);
+    z-index: 9999;
+    position: absolute;
+    bottom: 0;
+    pointer-events: none;
+    opacity: 0;
+}
+.window-hover-notification>p{
+    background: none;
+    width: inherit;
+    height: inherit;
+    line-height: 440px;
+    text-align: center;
+    color: white;
+    font-size: 35pt;
 }

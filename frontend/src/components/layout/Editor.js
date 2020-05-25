@@ -95,7 +95,7 @@ export class Editor extends Component {
         }
 
         const closed_style = {
-            background: "#82aa82",
+            background: "#00bfa5",
         }
 
 
@@ -178,7 +178,7 @@ export class Editor extends Component {
         ids.map(item => {
             const elem = document.querySelector("[data-line-position='" + item + "']")
             elem.style.transition = "background 0.3s linear 0s";
-            elem.style.background = "#b8d1b8";
+            elem.style.background = "#00bfa5";
         })
 
     }
@@ -261,7 +261,7 @@ export class Editor extends Component {
             }
 
             const style_selected = {
-                background: "black",
+                background: "#00bfa5",
                 color: "white"
             }
 

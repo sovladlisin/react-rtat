@@ -62,23 +62,22 @@ export class Ontology extends Component {
 
 
     renderClassCorpuses = () => {
-        const selected_style = {
-            background: "black",
-            color: "white"
+        const selected = {
+            background: "gainsboro"
         }
-        const style = {
-            background: "none",
-            color: "black"
+        const normal = {
+            background: "none"
         }
         if (this.state.selected_model == "3") {
             if (this.props.corpuses.length != 0) {
-                return this.props.corpuses.map(item => {
-                    const current_style = this.state.selected_corpus == item.id ? selected_style : style
+                const corpuses_dom = this.props.corpuses.map(item => {
+                    const current_style = this.state.selected_corpus == item.id ? selected : normal
                     return (<button
                         style={current_style}
                         onClick={() => { this.selectCorpus(item.id) }}>
                         {item.name}</button>)
                 })
+                return (<div>{corpuses_dom}</div>)
             }
         }
     }
@@ -96,20 +95,24 @@ export class Ontology extends Component {
     }
 
     render() {
+        const selected = {
+            background: "gainsboro"
+        }
+        const normal = {
+            background: "none"
+        }
         return (
             <Fragment>
                 <div className="content">
                     <div className="content-head">
                         <div>
-                            <button onClick={() => { this.selectModel('1') }}>Авторы</button>
-                            <button onClick={() => { this.selectModel('2') }}>Места</button>
-                            <button onClick={() => { this.selectModel('3') }}>Классы</button>
-                            <button onClick={() => { this.selectModel('4') }}>Объекты</button>
-                            <button onClick={() => { this.selectModel('6') }}>Корпусы</button>
+                            <button style={this.state.selected_model == '1' ? selected : normal} onClick={() => { this.selectModel('1') }}>Авторы</button>
+                            <button style={this.state.selected_model == '2' ? selected : normal} onClick={() => { this.selectModel('2') }}>Места</button>
+                            <button style={this.state.selected_model == '3' ? selected : normal} onClick={() => { this.selectModel('3') }}>Классы</button>
+                            <button style={this.state.selected_model == '4' ? selected : normal} onClick={() => { this.selectModel('4') }}>Объекты</button>
+                            <button style={this.state.selected_model == '6' ? selected : normal} onClick={() => { this.selectModel('6') }}>Корпусы</button>
                         </div>
-                        <div>
-                            {this.renderClassCorpuses()}
-                        </div>
+                        {this.renderClassCorpuses()}
                     </div>
                     <div className="info">
                         {this.renderSelectedClasses()}

@@ -80,7 +80,10 @@ export class Window extends Component {
                             <button onClick={() => this.props.closeWindow(this.props.id)}><i className="fas fa-times"></i></button>
                             <button onClick={() => this.props.hideWindow(this.props.id)}><i className="far fa-eye"></i></button>
                         </div>
-                        <div className="window-content" id={this.props.pk + this.props.model_name}>
+                        <div className="window-hover-notification" id={"notification-" + this.props.id}>
+                            <p><i class="far fa-check-circle"></i></p>
+                        </div>
+                        <div className="window-content">
                             {this.fill()}
                         </div>
                     </div>
