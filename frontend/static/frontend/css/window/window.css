@@ -233,10 +233,12 @@ button.delete-relation {
 }
 .create-relation-type {
     position: absolute;
-    top: 94px;
-    left: 10px;
+    top: 150px;
+    left: 40px;
+    width: 500px;
     height: 170px;
-    padding: 35px;
+    padding: 6px;
+    font-size: 10pt;
     z-index: 9999;
     background: white;
     -webkit-box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);
@@ -244,7 +246,7 @@ button.delete-relation {
     box-shadow: 0px 1px 1px 1px rgba(0,0,0,0.2);
 }
 .create-relation-type>p{
-    padding: 10px;
+    padding: 5px;
 }
 .create-relation-type>input{
     padding: 10px;
