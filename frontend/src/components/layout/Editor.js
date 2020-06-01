@@ -4,7 +4,7 @@ import Pin from '../pins/Pin'
 
 import { getResourceWorkspace } from '../../actions/resources';
 import { getCorpusClasses, getCorpusObjects } from '../../actions/corpuses';
-import { getMarkupsFromText, getMarkupEntites, createMarkup } from '../../actions/objects';
+import { getMarkupsFromText, getMarkupEntites, createMarkup, getTextRelations } from '../../actions/objects';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -23,7 +23,11 @@ export class Editor extends Component {
         sidebar_visibility: false,
         selected_markup: null,
         create_markup_window: false,
-        new_markup_name: "Не указано"
+        new_markup_name: "Не указано",
+        highlight_relation: [],
+        highlight_object: undefined,
+        highlight_parents: [],
+        highlight_children: []
     }
     static propTypes = {
         texts: PropTypes.object.isRequired,
@@ -35,7 +39,9 @@ export class Editor extends Component {
         getCorpusClasses: PropTypes.func.isRequired,
         getCorpusObjects: PropTypes.func.isRequired,
         getMarkupEntites: PropTypes.func.isRequired,
-        createMarkup: PropTypes.func.isRequired
+        createMarkup: PropTypes.func.isRequired,
+        getTextRelations: PropTypes.func.isRequired,
+        highlight_relation: PropTypes.array.isRequired
     };
 
     range = (start, end) => {
@@ -66,13 +72,15 @@ export class Editor extends Component {
             this.props.getMarkupsFromText(original.id)
         }
 
-
+        if (nextProps.entities != this.props.entities) {
+            const ids = nextProps.entities.map(item => item.obj)
+            this.props.getTextRelations(ids)
+        }
     }
 
     componentDidMount() {
         const pk = this.props.match.params.pk
         this.props.getResourceWorkspace(pk)
-        console.log(pk)
     }
 
     renderTexts = () => {
@@ -86,24 +94,51 @@ export class Editor extends Component {
 
         const self = this
 
-        const selected_style = {
-            background: "black"
+        const selected_line_style = {
+            background: "#495874"
         }
 
-        const unselected_style = {
-            background: "grey"
+        var object_style = {
+            background: "#495874",
         }
-
-        const closed_style = {
-            background: "#00bfa5",
+        const child_style = {
+            background: "#00bfa5"
         }
-
+        const parent_style = {
+            background: "#ff4641"
+        }
 
         const content = original_text.map((item) => {
-            const position = self.state.original_text.indexOf(item)
-            const style = this.props.entities.filter(item => item.position_start == position).length ? closed_style : undefined
+            var position = self.state.original_text.indexOf(item)
+            const object_id = this.props.entities.filter(item => item.position_start == position).map(item => item.obj)[0]
+            var style = object_id != undefined ? object_style : undefined
+
+            var line_style = {}
+            if (this.state.highlight_object != undefined) {
+                line_style = this.state.highlight_object == object_id ? selected_line_style : {}
+            }
+
+            var relation_name = null
+            if (object_id != undefined && object_id != this.state.highlight_object) {
+                const child_check = this.state.highlight_children.filter(item => item.object == object_id)
+                const parent_check = this.state.highlight_parents.filter(item => item.object == object_id)
+
+                line_style = this.state.highlight_object == object_id ? selected_line_style : line_style
+                if (child_check.length != 0) {
+                    line_style = child_style
+                    style = child_style
+                    relation_name = child_check[0].name
+                }
+                if (parent_check.length != 0) {
+                    line_style = parent_style
+                    style = parent_style
+                    relation_name = parent_check[0].name
+                }
+            }
+            position = relation_name == null ? position : relation_name
+
             return (
-                <div className="line" data-line-position={position}>
+                <div style={line_style} className="line" data-line-position={position} id={object_id}>
                     <button
                         onClick={this.openObjectFromLine}
                         style={style}
@@ -169,18 +204,24 @@ export class Editor extends Component {
 
     highlightOn = e => {
         const object_id = e.target.dataset.object
+        const relations = this.props.text_relations.filter(item => item.child == object_id || item.parent == object_id)
         const ids = this.props.entities.filter(
             item => item.obj == object_id).map(
                 item => this.range(item.position_start, item.position_end)).flat().sort((a, b) => a - b)
 
         e.target.setAttribute('title', 'Строки: ' + ids.join());
 
-        ids.map(item => {
-            const elem = document.querySelector("[data-line-position='" + item + "']")
-            elem.style.transition = "background 0.3s linear 0s";
-            elem.style.background = "#00bfa5";
-        })
 
+        if (relations.length != 0) {
+            const current_object = document.getElementById(object_id)
+            const children = relations.filter(item => item.parent == object_id).map(item => { return ({ name: item.name, object: item.child }) })
+            const parents = relations.filter(item => item.child == object_id).map(item => { return ({ name: item.name, object: item.parent }) })
+
+            this.setState({ highlight_parents: parents, highlight_children: children, highlight_object: object_id })
+        }
+        else {
+            this.setState({ highlight_object: object_id })
+        }
     }
 
     highlightOff = (e) => {
@@ -190,12 +231,7 @@ export class Editor extends Component {
             elems[index].style.transition = "background 0.3s linear 0s";
             elems[index].style.background = "none";
         }
-
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        return true
-
+        this.setState({ highlight_object: undefined, highlight_children: [], highlight_parents: [] })
     }
 
     renderObjects = () => {
@@ -375,7 +411,8 @@ const mapDispatchToProps = {
     getCorpusObjects,
     getMarkupsFromText,
     getMarkupEntites,
-    createMarkup
+    createMarkup,
+    getTextRelations
 };
 
 const mapStateToProps = state => ({
@@ -383,7 +420,8 @@ const mapStateToProps = state => ({
     entities: state.objects.entities_text,
     objects: state.corpuses.objects,
     classes: state.corpuses.classes,
-    markups: state.objects.markups
+    markups: state.objects.markups,
+    text_relations: state.objects.text_relations
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Editor);

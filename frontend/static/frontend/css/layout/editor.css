@@ -44,12 +44,14 @@
     text-align: center;
 }
 .text-editor button {
-    width: 20px;
+    width: max-content;
+    min-width: 20px;
     height: 20px;
     background: grey;
     color: white;
     font-size: 8pt;
     line-height: 20px;
+    padding: 0px 5px;
 }
 button.create-entity {
     width: 50px;
@@ -187,7 +189,7 @@ button.open-sidebar {
 .line {
     width: 900px;
     display: grid;
-    grid-template-columns: 30px 425px 425px;
+    grid-template-columns: auto 1fr 1fr;
     grid-gap: 10px;
     padding: 5px;
 }

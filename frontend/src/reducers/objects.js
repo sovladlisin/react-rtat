@@ -1,4 +1,4 @@
-import { GET_MARKUP_ENTITES, GET_OBJECT, GET_OBJECTS, GET_ENTITIES_TEXT, GET_ENTITIES_OBJECT, ADD_ENTITY, DELETE_ENTITY, UPDATE_OBJECT, CREATE_OBJECT, GET_MARKUPS_TEXT, CREATE_MARKUP, DELETE_OBJECT, DELETE_MARKUP, CREATE_RELATION, GET_RELATIONS_FROM_OBJECT, DELETE_RESOURCE, DELETE_RELATION } from "../actions/types.js";
+import { GET_MARKUP_ENTITES, GET_OBJECT, GET_OBJECTS, GET_ENTITIES_TEXT, GET_ENTITIES_OBJECT, ADD_ENTITY, DELETE_ENTITY, UPDATE_OBJECT, CREATE_OBJECT, GET_MARKUPS_TEXT, CREATE_MARKUP, DELETE_OBJECT, DELETE_MARKUP, CREATE_RELATION, GET_RELATIONS_FROM_OBJECT, DELETE_RESOURCE, DELETE_RELATION, GET_RELATIONS_FROM_TEXT } from "../actions/types.js";
 
 const initialState = {
     all: [],
@@ -6,7 +6,8 @@ const initialState = {
     entities_text: [],
     entities_object: [],
     markups: [],
-    object_relations: []
+    object_relations: [],
+    text_relations: []
 }
 
 export default function (state = initialState, action) {
@@ -84,6 +85,11 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 object_relations: action.payload
+            }
+        case GET_RELATIONS_FROM_TEXT:
+            return {
+                ...state,
+                text_relations: action.payload
             }
         case DELETE_RELATION:
             return {

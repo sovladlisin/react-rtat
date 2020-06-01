@@ -13,6 +13,7 @@ export class Pin extends Component {
     transfer = (e) => {
         e.dataTransfer.setData('pk', this.props.pk)
         e.dataTransfer.setData('model_name', this.props.model_name)
+        e.dataTransfer.setData('name', this.props.name)
     }
 
     render() {

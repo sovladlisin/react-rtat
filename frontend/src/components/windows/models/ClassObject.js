@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import ModelPanel from './ModelPanel';
 
 import { getClasses } from '../../../actions/classes';
-import { getObject, addEntity, getEntitiesFromObject, deleteEntity, updateObject, deleteObject, getObjectRelations, createRelation, deleteRelation } from '../../../actions/objects';
+import { getObject, getObjects, addEntity, getEntitiesFromObject, deleteEntity, updateObject, deleteObject, getObjectRelations, createRelation, deleteRelation } from '../../../actions/objects';
 import PropTypes from 'prop-types';
 import { connect, connectAdvanced } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom'
@@ -37,6 +37,7 @@ export class ClassObject extends Component {
         deleteObject: PropTypes.func.isRequired,
         relations: PropTypes.array.isRequired,
         getObjectRelations: PropTypes.func.isRequired,
+        getObjects: PropTypes.func.isRequired,
         deleteRelation: PropTypes.func.isRequired
     };
 
@@ -53,13 +54,21 @@ export class ClassObject extends Component {
                 var parents = {}
                 var relations = nextProps.relations
                 relations.map(item => {
+                    var name = "Ошибка"
+                    const parent_id = item.parent
+                    const child_id = item.child
                     if (item.parent == this.props.pk) {
+                        var obj = this.props.objects.filter(elem => elem.id == child_id)[0]
+                        name = obj == undefined ? name : obj.name
                         children[item.name] = children.hasOwnProperty(item.name) ? children[item.name] : []
-                        children[item.name] = [...children[item.name], { new: false, id: item.child, delete: false }]
+                        children[item.name] = [...children[item.name], { new: false, id: item.child, object_name: name, delete: false }]
                     }
                     if (item.child == this.props.pk) {
+                        var obj = this.props.objects.filter(elem => elem.id == parent_id)[0]
+                        name = obj == undefined ? name : obj.name
+
                         parents[item.name] = parents.hasOwnProperty(item.name) ? parents[item.name] : []
-                        parents[item.name] = [...parents[item.name], { new: false, id: item.parent, delete: false }]
+                        parents[item.name] = [...parents[item.name], { new: false, id: item.parent, object_name: name, delete: false }]
                     }
                     this.setState({
                         children: children,
@@ -79,6 +88,7 @@ export class ClassObject extends Component {
         this.props.getClasses()
         this.props.getEntitiesFromObject(this.props.pk)
         this.props.getObjectRelations(this.props.pk)
+        this.props.getObjects()
     }
 
     save = () => {
@@ -193,20 +203,21 @@ export class ClassObject extends Component {
     addRelation = (e, role, name) => {
         if (e.dataTransfer.getData("model_name") == "object") {
             if (parseInt(e.dataTransfer.getData("pk")) != this.props.pk) {
-
                 var children = this.state.children
                 var parents = this.state.parents
+                var object_name = e.dataTransfer.getData("name")
+
 
                 const object_id = parseInt(e.dataTransfer.getData("pk"))
 
                 if (role == "parent") {
                     if (children[name].filter(item => item.id == object_id).length == 0)
-                        children[name] = [...children[name], { new: true, id: object_id, delete: false }]
+                        children[name] = [...children[name], { new: true, id: object_id, object_name: object_name, delete: false }]
                 }
 
                 if (role == "child") {
                     if (parents[name].filter(item => item.id == object_id).length == 0)
-                        parents[name] = [...parents[name], { new: true, id: object_id, delete: false }]
+                        parents[name] = [...parents[name], { new: true, id: object_id, object_name: object_name, delete: false }]
                 }
                 this.setState({
                     parents: parents,
@@ -232,7 +243,7 @@ export class ClassObject extends Component {
                                 model_name={'object'}
                                 pk={item.id}
                                 createWindow={self.props.createWindow}
-                                name={'Объект'} />
+                                name={item.object_name} />
                             <button
                                 className="delete-relation"
                                 onClick={() => { self.deleteRelation("child", key, item.id) }}
@@ -264,7 +275,7 @@ export class ClassObject extends Component {
                                 model_name={'object'}
                                 pk={item.id}
                                 createWindow={self.props.createWindow}
-                                name={'Объект'} />
+                                name={item.object_name} />
                             <button
                                 className="delete-relation"
                                 onClick={() => { self.deleteRelation("parent", key, item.id) }}
@@ -436,14 +447,16 @@ const mapDispatchToProps = {
     deleteObject,
     getObjectRelations,
     createRelation,
-    deleteRelation
+    deleteRelation,
+    getObjects
 };
 
 const mapStateToProps = state => ({
     selected: state.objects.selected,
     classes: state.classes.all,
     entities: state.objects.entities_object,
-    relations: state.objects.object_relations
+    relations: state.objects.object_relations,
+    objects: state.objects.all
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ClassObject);
